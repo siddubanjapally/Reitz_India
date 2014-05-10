@@ -5,14 +5,11 @@
       $location.path '#/login'
     $scope.data = projectservice.data
     $scope.opbtn = true
-    #$scope.data.GasOperatingPoint = {T:0,F:0,P1:0,Dpt:0,Vp:0,Ro:0}
     $scope.$watch 'data.GasOperatingPoint.T',( (value)->
       $scope.data.GasOperatingPoint.Vi = projectservice.density(value)
     ), true
 
     $scope.chb ={At:true,Ro:false}
-#    if $location.path() is '/edit/operatingPoint'
-#      $scope.data.GasOperatingPoint = $scope.data.GasOperatingPoints[$scope.data.GasOperatingPoints.length]
 
     $scope.$watch 'data.GasOperatingPoint.Atcheck',( (value)->
       if value
@@ -56,8 +53,6 @@
         $scope.data.GasOperatingPoints[dummy]=$scope.data.GasOperatingPoint
         $scope.data.GasOperatingPoint = {T:'',F:0,P1:0,Dpt:'',Vp:'',Ro:''}
 
-    # to delete operating point from $scope.data.GasOperatingPoints which is clicked to delete
-    # by Naitik
     $scope.deleteGasOperatingPoint = ()->
       _.remove $scope.data.GasOperatingPoints, (ob)->
         ob is $scope.currentObj
@@ -82,17 +77,6 @@
       Alt = $scope.data.GasOperatingPoint.Alt
       T = $scope.data.GasOperatingPoint.T
       $scope.data.GasOperatingPoint.Ro = projectservice.calculateDensity(condition,operate,Alt,T)
-
-#    $scope.projectInfo = () ->
-#      if $location.path() is '/new/operatingPoint'
-#        $location.path '/new/project'
-#      else
-#        $location.path '/edit/project'
-#    $scope.fanAssembling = () ->
-#      if $location.path() is '/new/operatingPoint'
-#        $location.path '/new/fanAssembling'
-#      else
-#        $location.path '/edit/fanAssembling'
 
     $scope.normaldesityValidate = ->
       value = $scope.data.GasOperatingPoint.Ro.split('.')
