@@ -1,0 +1,47 @@
+ng-include(src="'views/nav.html'")
+div#page-wrapper
+	br
+	div.row
+		div.col-lg-12
+			.col-md-9.col-md-offset-2
+				.col-sm-5.col-md-5.pull-right
+					form.navbar-form(role='search')
+						.input-group
+							input#srch-term.form-control(type='text', placeholder='Search Project', name='srch-term', ng-model='search')
+							span.input-group-addon
+								i.glyphicon.glyphicon-search
+			.col-md-10.col-md-offset-1
+				.panel.panel-primary
+					.panel-heading
+						h3.panel-title.text-center  Projects List
+					.panel-body
+						table(ng-table='tableList',class='table table-hover table-striped table-bordered',show-filter='true')
+							thead
+								tr
+									th.text-center S.No.
+									th.text-center(sortable="'ProjectName'" data-title="'ProjectName'") ProjectName
+										//a(href='', ng-click='predicate = "ProjectName"; reverse=!reverse') (^)
+									th.text-center Engineer
+										//a(href='', ng-click='predicate = "Engineer"; reverse=!reverse') (^)
+									th.text-center Date
+										//a(href='', ng-click='predicate = "Date"; reverse=!reverse') (^)
+							tbody(ng-repeat='value in $data | filter: search')
+								//tr(ng-repeat='reitz in projectslist | filter: search | orderBy:predicate:reverse',ng-click='sendData(reitz)')
+								//	td {{$index+1}}
+								//	td {{reitz.ProjectName}}
+								//	td {{reitz.Engineer}}
+								//	td {{reitz.Date}}
+								tr(ng-click='sendData(value)',style='cursor:pointer;')
+									td(data-title="'S.No.'", align='center') {{ $index+1 }}
+									td(sortable="'ProjectName'", data-title="'ProjectName'", align='center') {{ value.ProjectName }}
+									td(sortable="'Engineer'", data-title="'Engineer'", align='center') {{ value.Engineer }}
+									td(sortable="'Date'", data-title="'Date'", align='center') {{ value.Date }}
+
+						//div.pagination
+						//	ul
+						//		li(ng-class='prevPageDisabled()')
+						//			a(href='', ng-click='prevPage()') « Prev
+						//		li(ng-repeat='n in range()', ng-class='{active: n == currentPage}', ng-click='setPage(n)')
+						//			a(href='#') {{n+1}}
+						//		li(ng-class='nextPageDisabled()')
+						//			a(href='', ng-click='nextPage()') Next »

@@ -1,0 +1,37 @@
+//
+   Created by techno23 on 11/4/14.
+ng-include(src="'views/nav.html'")
+div#page-wrapper
+    br
+    div.row
+        div.col-lg-12
+            .col-sm-8.col-sm-offset-2
+                div.alert.alert-success(ng-show="errorMode")
+                    a.close(data-dismiss='alert') x
+                    h4.alert-heading Success!
+                    | Successfully created Impeller Scantlling
+                div.alert.alert-danger(ng-show="errorModeExists")
+                    a.close(data-dismiss='alert') x
+                    h4.alert-heading Warning!
+                    | Impeller Value Alredy Exists.
+                .panel.panel-primary
+                    .panel-heading
+                        h3.panel-title.text-center Add Impeller Scantlling
+                    .panel-body
+                        .col-sm-10.col-sm-offset-1
+                            form(Role='form',name='impscn',ng-submit='addImpleller(data)')
+                                .form-group(ng-class="{ 'has-error' : impscn.suck.$invalid && impscn.suck.$dirty}")
+                                    label(
+                                    class='control-label',
+                                    for='impeller')
+                                    input(
+                                    class='form-control ',
+                                    type='text',
+                                    ng-model='data',
+                                    name='suck',
+                                    placeholder='Enter Value (e.g 3.0)',required
+                                    )
+                                    small.help-block(
+                                    ng-show='impscn.suck.$invalid && impscn.suck.$dirty') Impeller Scantlling Should be Number
+                                .form-group
+                                    button.btn.btn-primary.pull-right(type='submit',data-ng-disabled="impscn.$invalid") Add

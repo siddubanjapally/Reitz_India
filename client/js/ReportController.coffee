@@ -1,0 +1,29 @@
+(angular.module 'reitz')
+.controller 'ReportController',($scope,$modalInstance,$window,chartService,projectservice)->
+    data = chartService.inputdata
+#    console.log data
+#    console.log chartService.reportdata
+    if chartService.reportdata.shafthub is 0
+      chartService.reportdata.shafthub = chartService.reportdata.old_shafthub
+      chartService.reportdata.shaftbrg = chartService.reportdata.old_shaftbrg
+    gsop = _.map chartService.inputdata.GasOperatingPoints,(item)->
+      {"T":item.T,"P1":item.P,"Vi":item.Vi,"Vp":item.Vp,"Dpt":item.Dpt,"Ro":item.Ro}
+
+    fanProject = angular.toJson({"Proposal_OrderNo":data.Proposal_OrderNo,"GasDatas":[{"VpUnit":data.GasDatas.VpUnit,"DptUnit":data.GasDatas.DptUnit,"GasOperatingPoints":gsop}],"MaterialDriveControls":[{"Width":data.MaterialDriveControls.Width,"Control":data.MaterialDriveControls.Control}],"Date":data.Date,"Engineer":data.Engineer,"ProjectName":data.ProjectName,"fanType":data.MaterialDriveControls.Width,"fanImage":data.MaterialDriveControls.FanType
+    ,"InletSoundSilencer":data.FanAssemblies.InletSoundSilencer,'EvaseOutlet_InletAreaRatio':data.FanAssemblies.EvaseOutlet_InletAreaRatio
+    ,'InletBox':data.FanAssemblies.InletBox,'OutletSilencer':data.FanAssemblies.OutletSilencer,'OutletOtherParts':data.FanAssemblies.OutletOtherParts,'InletOtherParts':data.FanAssemblies.InletOtherParts
+    ,'PressureDifference':data.FanAssemblies.PressureDifference,'MechanicalDesignTemperature':data.MaterialDriveControls.MechanicalDesignTemperature
+    ,'Drive':data.MaterialDriveControls.Drive,'InletOutletDuct':data.MaterialDriveControls.InletOutletDuct
+    ,'StandardImpellerMaterial':data.MaterialDriveControls.StandardImpellerMaterial})
+
+    if data.MaterialDriveControls.NoiseDataRequired
+      _.assign fanProject,angular.toJson({"NoiseDataRequired":data.MaterialDriveControls.NoiseDataRequired
+      ,"FanLocation":data.Noises.FanLocation,"RoomAbsorptionArea":data.Noises.RoomAbsorptionArea,"BackgroundNoiseCorrection":data.Noises.BackgroundNoiseCorrection
+      ,"HousingMetalPlateThickness":data.Noises.HousingMetalPlateThickness,"DistanceBetweenStiffners":data.Noises.DistanceBetweenStiffners,"HousingMaterial":data.Noises.HousingMaterial})
+
+    $window.fanProject = fanProject
+    $window.fanResult = angular.toJson(chartService.reportdata)
+
+    $scope.cancel = ()->
+      $modalInstance.dismiss('cancel')
+

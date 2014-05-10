@@ -1,0 +1,31 @@
+nav.navbar.navbar-default.navbar-static-top(role='navigation', style='margin-bottom: 0')
+	.navbar-header
+		button.navbar-toggle(type='button', data-toggle='collapse', data-target='.sidebar-collapse')
+			span.sr-only Toggle navigation
+			span.icon-bar
+			span.icon-bar
+			span.icon-bar
+		a.navbar-brand(href='#')
+			img(src='images/logo.gif')
+#login
+	h3.text-center Welcome
+	div.alert.alert-danger(ng-show="errorMode")
+		//a.close(data-dismiss='alert')
+		h4.alert-heading Warning!
+		| The username or password you entered is incorrect !!
+	form#login-form.form(ng-submit='customerViews(userlogin)')
+		.form-group
+			label.control-label(for='login-username') Username
+			.input-group
+				span.input-group-addon
+					i(class='glyphicon glyphicon-user')
+				input#login-username.form-control(type='text',autofocus,ng-model='userlogin.username', placeholder='Username')
+		.form-group
+			label.control-label(for='login-password') Password
+			.input-group
+				span.input-group-addon
+					i(class='glyphicon glyphicon-eye-close')
+				input#login-pasword.form-control(type='password',ng-model='userlogin.password' placeholder='Password')
+		.form-group
+			button#login-btn.btn.btn-primary.btn-block(type='submit')
+				| Sign in

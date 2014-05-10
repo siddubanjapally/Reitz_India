@@ -1,0 +1,39 @@
+ng-include(src="'views/nav.html'")
+div#page-wrapper
+	br
+	div.row
+		div.col-lg-12
+			.col-sm-8.col-sm-offset-2
+				div.alert.alert-success(ng-show="errorMode")
+					a.close(data-dismiss='alert') x
+					h4.alert-heading Success!
+					| Successfully created Resistant Coefficients
+				div.alert.alert-danger(ng-show="errorModeExists")
+					a.close(data-dismiss='alert') x
+					h4.alert-heading Warning!
+					| Resistant Coefficients already exists.
+				.panel.panel-primary
+					.panel-heading
+						h3.panel-title.text-center Resistant Coefficients
+					.panel-body
+						.col-sm-10.col-sm-offset-1
+							form(Role='form',name='crs',novalidate)
+								.form-group( ng-class="{'has-error':newProject.dat.$invalid&& newProject.date.$dirty}")
+									label(
+									class='control-label',
+									for='create-date') Select Resistant Coefficient
+									select.form-control(ng-model='getFanAssembliesName', ng-options="opt as opt.label for opt in FanAssemblies")
+
+								.form-group(ng-class="{ 'has-error' : crs.data.$invalid && !crs.data.$pristine }")
+									label(
+									class='control-label',
+									for='selectPressure')
+									| {{getFanAssembliesName.label}}
+									input(
+									class='form-control ',
+									type='text',
+									ng-model='data',
+									placeholder='Enter Value',required,ng-pattern='/^[0-9]+(\.[0-9]{1,6}?)?$/')
+									small.help-block(ng-show='crs.data.$invalid && crs.data.$dirty') Resistant Coefficient must be a number
+								.form-group
+									button.btn.btn-primary.pull-right(type='button',ng-disabled="crs.$invalid",ng-click='addCofficients(data, getFanAssembliesName)') Submit

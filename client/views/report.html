@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8" />
+
+<!--
+	<link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet" />
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.common.min.css" rel="stylesheet" />
+	<link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.blueopal.min.css" rel="stylesheet" />
+	<script src="http://cdn.kendostatic.com/2013.2.918/js/kendo.all.min.js"></script>
+	<link href="ReportViewer/styles/ReportViewer-8.0.14.225.css" rel="stylesheet" />
+	<script src="ReportViewer/js/ReportViewer-8.0.14.225.min.js"></script>
+-->
+	<style>
+		#reportViewer1 {
+			font-family: Verdana, Arial;
+		}
+	</style>
+</head>
+<body>
+<!--Home-->
+<div id="tabstrip-home" ng-controller="CustomerLoginController" data-role="view" data-title="Home">
+	<!--<modal report-modal name="'data'">
+		&lt;!&ndash;&lt;!&ndash; bind to modal content here &ndash;&gt;
+		{{fandata.inputdata.Engineer}}: {{fandata.outputdata.Series}}&ndash;&gt;
+	</modal>-->
+	<div class="view-content">
+		<span ng-bind="msg"></span>
+		<div ng-bind="fanProject.fanType"></div>
+		<div class="modal-header">
+
+			<button class="close btnmodal" type="button" data-dismiss="modal" ng-click="cancel()">&times;</button>
+            <h4 class="modal-title text-center">Fan Data</h4>
+
+		</div>
+		<div id="reportViewer1">
+			loading...
+		</div>
+		<!--<div class="modal-footer">-->
+			<!--<button class="btn btn-warning" ng-click="cancel()">Cancel</button>-->
+		<!--</div>-->
+	</div>
+
+<script type="text/javascript">
+	var prevPageHeight = 0;
+	function setHeight() {
+		$('#reportViewer1').height(600);
+		prevPageHeight = window.innerHeight;
+	}
+	setInterval(function () {
+		if (window.innerHeight != prevPageHeight) {
+			setHeight();
+		}
+	}, 500);
+	setHeight();
+	fanProject = window.fanProject
+	fanResult = window.fanResult
+	report = $('#reportViewer1').telerik_ReportViewer({
+				serviceUrl: "http://202.153.45.8/ReitzReportService/api/reports/",
+				templateUrl: 'lib/ReportViewer/templates/telerikReportViewerTemplate.html',
+				reportSource: { report: "WpfApplication.MOPFanReport, WpfApplication", parameters: { fanProject: fanProject, fanResult: fanResult } },
+				viewMode: telerikReportViewer.ViewModes.INTERACTIVE,
+				scaleMode: telerikReportViewer.ScaleModes.SPECIFIC
+
+			});
+
+</script>
+	<script type="text/javascript">
+		$('.trv-nav li a[href="#"]').click( function(e) {
+			e.preventDefault();
+		} );
+		/* <![CDATA[ *//*
+		 ( function( $ ) {
+		 $('.trv-nav li a[href="#"]').click( function(e) {
+		 e.preventDefault();
+		 } );
+		 } )( jQuery );
+		 *//* ]]> */
+	</script>
+</div>
+</body>
+</html>

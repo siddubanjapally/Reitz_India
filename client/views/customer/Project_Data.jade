@@ -1,0 +1,87 @@
+ng-include(src="'views/nav.html'")
+div#page-wrapper
+	div.row
+		div.col-lg-12
+		br
+	div.row
+		div.col-lg-10.col-lg-offset-1
+			.panel.panel-primary
+				.panel-heading
+					h3.panel-title.text-center Project Data
+				.panel-body
+					.col-lg-11.col-sm-offset-1
+						form(role='form',name='newProject',novalidate)
+							.form-group(ng-class="{ 'has-error' : newProject.dat.$invalid && !newProject.dat.$pristine }")
+								div.row
+									label.col-lg-3(
+									class='control-label',
+									for='create-date') Date
+									div.col-lg-6
+										input.form-control(type='text', datepicker-popup='dd/MM/yyyy', ng-model='data.Date', is-open='opened',placeholder='Enter date ')
+										//input#create-date(ui-date,
+										//class='form-control',
+										//type='date',
+										//name='dat',
+										//ng-model='data.Date',
+										//autofocus,
+										//ng-enter,
+										//placeholder='Enter Date',
+										//required
+										//)
+										small(
+										class='help-block',
+										ng-show='newProject.dat.$invalid && newProject.date.$dirty') Date is required
+							.form-group(ng-class="{ 'has-error' : newProject.engineers.$invalid && !newProject.engineers.$pristine }")
+								div.row
+									label.col-lg-3(
+									class='control-label',
+									for='engineer') Engineer Name
+									div.col-lg-6
+										input#engineer(
+										class='form-control',
+										ng-enter,
+										type='text',
+										name='engineers',
+										ng-model='data.Engineer',
+
+										placeholder='Enter Engineer name',
+										required)
+										small.help-block(
+										ng-show='newProject.engineers.$invalid && newProject.engineers.$dirty') Engineer Name is required
+							.form-group(ng-class="{ 'has-error' : newProject.projectName.$invalid && !newProject.projectName.$pristine }")
+								div.row
+									label.col-lg-3(
+									class='control-label',
+									for='project-name') Project Name
+									div.col-lg-6
+										input#project-name(
+										class='form-control',
+										ng-enter,
+										type='text',
+										name='projectName',
+										ng-model='data.ProjectName',
+										placeholder='Enter Project Name ',required
+										)
+										small.help-block(
+										ng-show='newProject.projectName.$invalid && newProject.projectName.$dirty') Project Name is required
+							.form-group(ng-class="{ 'has-error' : newProject.orderNo.$invalid && !newProject.orderNo.$pristine }")
+								div.row
+									label.col-lg-3(
+									class='control-label',
+									for='order-no') Proposal / Order No.
+									div.col-lg-6
+										input#order-no(
+										class='form-control',
+										type='text',
+										ng-enter,
+										name='orderNo',
+										ng-model='data.Proposal_OrderNo',
+										placeholder='Enter Proposal text',required
+										)
+										small.help-block(
+										ng-show='newProject.orderNo.$invalid && newProject.orderNo.$dirty') Proposal No. is required
+							.form-group
+								a.btn.btn-primary.pull-right(data-ng-disabled="newProject.$invalid",href='#/{{state}}/operatingPoint') Next
+
+
+

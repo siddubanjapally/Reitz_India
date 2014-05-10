@@ -1,0 +1,113 @@
+ng-include(src="'views/nav.html'")
+div#page-wrapper
+	br
+	div.row
+		div.col-lg-12
+			.panel.panel-primary
+				.panel-heading
+					h3.panel-title.text-center Noises Data
+				.panel-body
+					.col-sm-11.col-lg-offset-1
+						.form-group( ng-class="{ 'has-error' : newProject.projectName.$invalid && newProject.projectName.$dirty}")
+							div.row
+								label.col-lg-4(
+								class='control-label',
+								for='project-name') Fan Location
+								div.col-lg-6
+									select.form-control(ng-model='data.Noises.FanLocation',autofocus)
+										option(value='') Select Fan Location..
+										option(value='1') Centre of the Room
+										option(value='2') Centre of a Wall
+										option(value='3') Centre of a Corner
+										option(value='4') Corner
+						.form-group(ng-class="{ 'has-error' : newProject.orderNo.$invalid && newProject.orderNo.$dirty}")
+							div.row
+								label.col-lg-4(
+								class='control-label',
+								for='order-no') Absorption area of room
+								div.col-lg-2
+									input#dynamicViscosity(
+									class='form-control ',
+									type='text',
+									name='dynamicViscosity',
+									ng-model='data.Noises.RoomAbsorptionArea',
+									required)
+									small.help-block(
+									ng-show='newProject.dynamicViscosity.$invalid && newProject.dynamicViscosity.$dirty')
+										| Absorption area of roomis required
+						.form-group(ng-class="{ 'has-error' : newProject.orderNo.$invalid && newProject.orderNo.$dirty}")
+							div.row
+								label.col-lg-4(
+								class='control-label',
+								for='order-no') Background Noise corrections
+								div.col-lg-2
+									input#dynamicViscosity(
+									class='form-control ',
+									type='text',
+									name='dynamicViscosity',
+									ng-model='data.Noises.BackgroundNoiseCorrection',
+									required)
+									small.help-block(
+									ng-show='newProject.dynamicViscosity.$invalid && newProject.dynamicViscosity.$dirty')
+										|  Background Noise corrections is required
+						.form-group( ng-class="{ 'has-error' : newProject.projectName.$invalid && newProject.projectName.$dirty}")
+							div.row
+								label.col-lg-4(
+								class='control-label',
+								for='project-name') Design
+								div.col-lg-6
+									select.form-control(ng-model='data.Noises.Design')
+										option(value='') Select Design
+										option(value='1') RU/RE[single inlet ducted/with intake notzle]
+										option(value='2') RS[single inlet with intake box]
+										option(value='3') ZE[double inlet with inlet notzle]
+										option(value='4') ZS[double inlet with intake box]
+						.form-group(ng-class="{ 'has-error' : newProject.orderNo.$invalid && newProject.orderNo.$dirty}")
+							div.row
+								label.col-lg-4(
+								class='control-label',
+								for='order-no') Housing Metal place thickness[mm]
+								div.col-lg-2
+									input#dynamicViscosity(
+									class='form-control ',
+									type='text',
+									name='dynamicViscosity',
+									ng-model='data.Noises.HousingMetalPlateThickness',
+									required)
+									small.help-block(
+									ng-show='newProject.dynamicViscosity.$invalid && newProject.dynamicViscosity.$dirty')
+										| Housing Metal place thickness is required
+						.form-group(ng-class="{ 'has-error' : newProject.orderNo.$invalid && newProject.orderNo.$dirty}")
+							div.row
+								label.col-lg-4(
+								class='control-label',
+								for='order-no') Distance between stiffners 2a[mm]
+								div.col-lg-2
+									input#dynamicViscosity(
+									class='form-control ',
+									type='text',
+									name='dynamicViscosity',
+									ng-model='data.Noises.DistanceBetweenStiffners',
+									required)
+									small.help-block(
+									ng-show='newProject.dynamicViscosity.$invalid && newProject.dynamicViscosity.$dirty')
+										| Distance between stiffners 2a is required
+						.form-group(ng-class="{ 'has-error' : newProject.projectName.$invalid && newProject.projectName.$dirty}")
+							div.row
+								label.col-lg-4(
+								class='control-label',
+								for='project-name') Housing Material
+								div.col-lg-6
+									select.form-control(ng-model='data.Noises.HousingMaterial')
+										option(value="") Select Housing Material..
+										option(value='1') Steel,Alu. or stainless steel plate
+										option(value='2') Steel plate rubberized
+						.form-group
+							.row
+								div.col-lg-3
+									a.btn.btn-primary.pull-right(href='#/{{state}}/materialControl') Previous
+								div.col-lg-3.col-lg-offset-4
+									button.btn.btn-primary.pull-right(type='submit',ng-click='createProject(data)') Submit
+
+
+

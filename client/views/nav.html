@@ -1,0 +1,138 @@
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0" ng-controller="navCtrl" >
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class='navbar-brand' href='#'><img src="images/logo.gif"/></a>
+    </div>
+    </div>
+    <!-- /.navbar-header -->
+
+    <ul class="nav navbar-top-links navbar-right">
+        <li class="dropdown" id="nav-login" ng-controller="CustomerLoginController">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+
+                <i class="fa fa-user fa-fw"></i>
+                <span ng-show="{{ user.role == 'admin' }}" style="color: #428bca">{{ user.username }}</span>
+                <span ng-show="{{ user.role != 'admin' }}" style="color: #428bca">{{ user.username }}</span>
+                <i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-user">
+                <li>
+                    <a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                </li>
+                <!--<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>-->
+                <!--</li>-->
+                <li class="divider"></li>
+                <li><a href="#/login" ng-click="logout()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                </li>
+            </ul>
+            <!-- /.dropdown-user -->
+        </li>
+        <!-- /.dropdown -->
+    </ul>
+    <!-- /.navbar-top-links -->
+
+</nav>
+<!-- /.navbar-static-top -->
+
+<nav class="navbar-default navbar-static-side" role="navigation" ng-controller="navCtrl">
+    <div class="sidebar-collapse" >
+        <ul class="nav" id="side-menu">
+            <li ng-class="{active: isActive('/home')}" >
+                    <a href="#/home"><i class="fa fa-home fa-fw"></i>Home</a>
+               </li>
+                <li ng-class="{active:isNewProject()}" >
+                <a href=""><i class="fa fa-dashboard fa-fw"></i> New Project <span class="fa arrow" data-ng-hide="!navEnable"></span></a>
+                <ul class="nav nav-second-level" data-ng-hide="!navEnable" ng-class="{in: isNewProject()}">
+                    <li>
+                        <a href="#/new/project">Project Data</a>
+                    </li>
+                    <li>
+                        <a href="#/new/operatingPoint">Operating points</a>
+                    </li>
+                    <li>
+                        <a href="#/new/fanAssembling">Fan Assembling</a>
+                    </li>
+                    <li>
+                        <a href="#/new/materialControl">Material Control</a>
+                    </li>
+                    <li>
+                        <a href="#/new/noiseData">Noises Data</a>
+                    </li>
+                    <li>
+                        <a href="#/new/chartview">Fan Result</a>
+                    </li>
+                </ul>
+            </li>
+            <li ng-class="{active : isEditProject()}">
+                <a href=""><i class="fa fa-table fa-fw"></i> Edit Project <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level" ng-class="{in : isEditProject()}">
+	                <li>
+		                <a href="#/edit/projectslist">Projects</a>
+	                </li>
+                    <li>
+                        <a href="#/edit/project">Project Data</a>
+                    </li>
+                    <li>
+                        <a href="#/edit/operatingPoint">Operating points</a>
+                    </li>
+                    <li>
+                        <a href="#/edit/fanAssembling">Fan Assembling</a>
+                    </li>
+                    <li>
+                        <a href="#/edit/materialControl">Material Control</a>
+                    </li>
+                    <li>
+                        <a href="#/edit/noiseData">Noises Data</a>
+                    </li>
+                    <li>
+                        <a href="#/edit/chartview">Fan Result</a>
+                    </li>
+
+                </ul>
+            </li>
+            <li ng-class="{active:isSetting()}" ng-show="admin_role">
+                <a href="#"><i class="fa fa-gear fa-fw"></i> Settings<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level" ng-class="{in:isSetting()}">
+                    <li>
+                        <a href="#/createuser">Create User</a>
+                    </li>
+                    <li>
+                        <a href="#/createResistantCoefficients">Add co-efficiency Points</a>
+                    </li>
+                    <li>
+                        <a href="#/createImpellerScantllings">Add Impeller Scantllings </a>
+                    </li>
+
+               </ul>
+                <!-- /.nav-second-level -->
+            </li>
+        </ul>
+        <!-- /#side-menu -->
+    </div>
+    <!-- /.sidebar-collapse -->
+</nav>
+<script>
+    // Generated by CoffeeScript 1.6.3
+    (function() {
+        $(function() {
+            $("#side-menu").metisMenu();
+        });
+
+        $(function() {
+            $(window).bind("load resize", function() {
+                if ($(this).width() < 768) {
+                    $("div.sidebar-collapse").addClass("collapse");
+                } else {
+                    $("div.sidebar-collapse").removeClass("collapse");
+                }
+            });
+        });
+
+    }).call(this);
+
+</script>

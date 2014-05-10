@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8" />
+
+<!--
+	<link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet" />
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.common.min.css" rel="stylesheet" />
+	<link href="http://cdn.kendostatic.com/2013.2.918/styles/kendo.blueopal.min.css" rel="stylesheet" />
+	<script src="http://cdn.kendostatic.com/2013.2.918/js/kendo.all.min.js"></script>
+	<link href="ReportViewer/styles/ReportViewer-8.0.14.225.css" rel="stylesheet" />
+	<script src="ReportViewer/js/ReportViewer-8.0.14.225.min.js"></script>
+-->
+	<!--<script src="js/sample.js"></script>-->
+	<style>
+		#reportViewer1 {
+			font-family: Verdana, Arial;
+		}
+	</style>
+
+</head>
+<body>
+<!--Home-->
+<div id="tabstrip-home" ng-controller="CustomerLoginController" data-role="view" data-title="Home">
+	<!--<modal report-modal name="'data'">
+		&lt;!&ndash;&lt;!&ndash; bind to modal content here &ndash;&gt;
+		{{fandata.inputdata.Engineer}}: {{fandata.outputdata.Series}}&ndash;&gt;
+	</modal>-->
+	<div class="view-content">
+		<span ng-bind="msg"></span>
+		<div ng-bind="fanProject.fanType"></div>
+		<div class="modal-header">
+
+			<button class="close btnmodal" type="button" data-dismiss="modal" ng-click="cancel()">&times;</button>
+            <h4 class="modal-title text-center">Fan Data</h4>
+
+		</div>
+		<div id="reportViewer1">
+			loading...
+		</div>
+		<!--<div class="modal-footer">-->
+			<!--<button class="btn btn-warning" ng-click="cancel()">Cancel</button>-->
+		<!--</div>-->
+	</div>
+
+<script type="text/javascript">
+	var prevPageHeight = 0;
+	function setHeight() {
+		$('#reportViewer1').height(600);
+		prevPageHeight = window.innerHeight;
+	}
+	setInterval(function () {
+		if (window.innerHeight != prevPageHeight) {
+			setHeight();
+		}
+	}, 500);
+	setHeight();
+	//fanProject = JSON.stringify({"fanType":"1","Proposal_OrderNo":"12","VpUnit":"1","DptUnit":"1","T":"75","P1":"0","Vi":"20.0","Vp":"14","Dpt":"8965","Ro":"0.325","Width":"1","Control":"1","Date":"2014-04-11","Engineer":"fg","ProjectName":"d"});
+			//JSON.strngify({ Date: "Feb 06 2014", Engineer: "raj", ProjectName: "Reitz India", Proposal_OrderNo: "10", LastUiFormCompleted: null, Id: "2ed75ab4-48b1-435f-bb2c-dfc3d968b4e6" })
+	//fanResult =JSON.stringify({"Series":22,"BladeAngle":55,"NominalSize":2240,"OperatingPoint":1,"Efficiency":53.78,"OuterBladeDiameter":3548,"NumberOfBladeCuts":0,"NumberOfBladeExtensions":0,"FanSpeed":675.57,"MotorPower":0,"TotalPressureDifference":20178.02,"FanShaftPower":4947.67,"BackPlate":1568.5026784000001,"ShroudPlate":873.12476544,"Blades":403.32926016,"Hub":654.591808,"Total":3499.5485120000003,"ShaftPowerWithDustLoad":494.93,"GDpow2":10068.73,"RecommendedMotorPower":549.92,"DynamicPressureAtInlet":18.63,"DynamicPressureAtOutlet":36.19,"DynamicPressureEvaseOutlet":18.47,"KinematicViscocity":0.00003252858958068615,"DampeningValue":0,"TipSpeed":125.5,"NominalOuterBladeDiameter":3548,"MotorSpeed":0,"SpeedAtLowestGuaranteePoint":655.3,"SpeedAtHighestGuaranteePoint":695.83,"BladePassageFrequency1_111":101.33,"BladePassageFrequency1_111_2":202.67,"BladePassageFrequency1_111_3":304,"Nomenclature":26,"StandardBackPlate":20,"StandardShroud":12,"StandardBlade":12,"FlowRate":135.55,"UsableTotalPressureDifference":20092.45});
+			//JSON.stringify({ "Series": 22, "BladeAngle": 55, "NominalSize": 2240, "OperatingPoint": 1, "Efficiency": 53.78, "OuterBladeDiameter": 3548, "NumberOfBladeCuts": 0, "NumberOfBladeExtensions": 0, "FanSpeed": 675.57, "MotorPower": 0, "TotalPressureDifference": 20178.02, "FanShaftPower": 4947.67, "BackPlate": 1568.5026784000001, "ShroudPlate": 873.12476544, "Blades": 403.32926016, "Hub": 654.591808, "Total": 3499.5485120000003, "ShaftPowerWithDustLoad": 494.93, "GDpow2": 10068.73, "RecommendedMotorPower": 54992, "DynamicPressureAtInlet": 18.63, "DynamicPressureAtOutlet": 36.19, "DynamicPressureEvaseOutlet": 18.47, "KinematicViscocity": 0.00003252858958068615, "DampeningValue": 0, "TipSpeed": 125.5, "NominalOuterBladeDiameter": 3548, "MotorSpeed": 0, "SpeedAtLowestGuaranteePoint": 655.3, "SpeedAtHighestGuaranteePoint": 695.83, "BladePassageFrequency1_111": 101.33, "BladePassageFrequency1_111_2": 202.67, "BladePassageFrequency1_111_3": 304, "Nomenclature": 26, "StandardBackPlate": 20, "StandardShroud": 12, "StandardBlade": 12, "FlowRate": 135.55, "UsableTotalPressureDifference": 20092.45 });
+	fanProject = window.fanProject
+	fanResult = window.fanResult
+	report = $('#reportViewer1').telerik_ReportViewer({
+				serviceUrl: "http://202.153.45.8/ReitzReportService/api/reports/",
+				templateUrl: 'lib/ReportViewer/templates/telerikReportViewerTemplate.html',
+				reportSource: { report: "WpfApplication.MOPFanReport, WpfApplication", parameters: { fanProject: fanProject, fanResult: fanResult } },
+				viewMode: telerikReportViewer.ViewModes.INTERACTIVE,
+				scaleMode: telerikReportViewer.ScaleModes.SPECIFIC
+
+			});
+</script>
+<script>
+	/*$(function(){
+		$("ul").on('click','a',function(e) {
+			e.preventDefault();
+		});
+	});*/
+</script>
+</div>
+</body>
+</html>

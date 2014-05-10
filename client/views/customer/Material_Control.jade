@@ -1,0 +1,199 @@
+ng-include(src="'views/nav.html'")
+div#page-wrapper
+	br
+	div.row
+		div.col-lg-12
+			.panel.panel-primary
+				.panel-heading
+					h3.panel-title.text-center Material Control
+				.panel-body
+					.col-sm-10.col-sm-offset-1
+						.form-group
+							div.row
+								label.col-lg-4(
+								class='control-label',
+								for='create-date') Inlet/Outlet Duct
+								div.col-lg-7
+									select.form-control(ng-model='data.MaterialDriveControls.InletOutletDuct',autofocus)
+										option(value='') Select duct..
+										option(value='0') Free inlet,ducted outlet
+										option(value='1') Free outlet,ducted inlet
+										option(value='2') Ducted inlet and outlet
+						.form-group
+							div.row
+								label.col-lg-4(
+								class='control-label',
+								for='engineer') Single/Double Width
+								div.col-lg-5
+									button.btn.btn-primary.btn-circle(type="button",tabindex='-1',ng-model="data.MaterialDriveControls.Width",btn-radio="'1'") Single
+									button.btn.btn-primary.btn-circle(type="button",tabindex='-1',ng-model="data.MaterialDriveControls.Width",btn-radio="'2'") Double
+
+						.form-group(ng-show='data.MaterialDriveControls.Width == 1')
+							div.row
+								label.col-lg-4(
+								class='control-label',
+								for='engineer') Fan Type
+								div.col-lg-2
+									select.form-control(ng-model='data.MaterialDriveControls.FanType')
+										option(value='KXE') KXE
+										option(value='KBE') KBE
+										option(value='KXA') KXA
+										option(value='KBA') KBA
+										option(value='MAE') MAE
+										option(value='MXE') MXE
+										option(value='RBC') RBC
+										option(value='RGE') RGE
+										option(value='RHE') RHE
+						.form-group(ng-show='data.MaterialDriveControls.Width == 2')
+							div.row
+								label.col-lg-4(
+								class='control-label',
+								for='engineer') Fan Type
+								div.col-lg-2
+									select.form-control(ng-model='data.MaterialDriveControls.FanType')
+										option(value='KBX') KBX
+										option(value='KBZ') KBZ
+
+						.form-group
+							div.row
+								label.col-lg-4(
+								class='control-label',
+								for='project-name') Control
+								div.col-lg-7
+									select.form-control(ng-model='data.MaterialDriveControls.Control',placeholder='Select value')
+										option(value='') Select Control..
+										option(value='0') None
+										option(value='1') Speed Control
+										option(value='2') Inlet Vane Control
+										option(value='3') Dumper Control
+
+						.form-group(ng-show='data.MaterialDriveControls.IVCPosition')
+							div.row
+								label.col-lg-4(
+								class='control-label',
+								for='order-no') IVC Position at design load 90c
+								.col-lg-4
+									.checkbox-inline
+										input(type='checkbox',ng-model='data.MaterialDriveControls.IVCPosition')
+						.form-group
+							div.row
+								label.col-lg-5(
+
+								class='control-label',
+								for='order-no') Mechanical Design Temp[Deg'C]
+								div.col-lg-2.col-lg-pull-1
+									input#dynamicViscosity(
+									class='form-control ',
+									type='text',
+									name='dynamicViscosity',
+									ng-model='data.MaterialDriveControls.MechanicalDesignTemperature',
+									required)
+									small.help-block(
+									ng-show='newProject.dynamicViscosity.$invalid && newProject.dynamicViscossity.$dirty')
+										|  Mechanical Design Temperature[Degrees C] is required
+						.form-group
+							div.row
+								label.col-lg-4(
+								class='control-label',
+								for='order-no') Standard Impeller Material
+								.col-lg-1
+									.checkbox-inline
+										input(type='checkbox',ng-model='data.MaterialDriveControls.StandardImpellerMaterial')
+						.form-group(ng-hide='data.MaterialDriveControls.StandardImpellerMaterial')
+							div.row
+								label.col-lg-4(
+								class='control-label',
+								for='order-no') Material Name
+								div.col-lg-7
+									input#dynamicViscosity(
+									class='form-control ',
+									type='text',
+									name='dynamicViscosity',
+									ng-model='data.MaterialDriveControls.MaterialName',
+									placeholder='Enter Material Name ',
+									required)
+									small.help-block(
+									ng-show='newProject.dynamicViscosity.$invalid && newProject.dynamicViscosity.$dirty')
+										|  Material Name is required
+						.form-group(ng-hide='data.MaterialDriveControls.StandardImpellerMaterial')
+							div.row
+								label.col-lg-4(
+								class='control-label',
+								for='order-no') Material Density[kg/dm*3]
+								div.col-lg-2
+									input#dynamicViscosity(
+									class='form-control ',
+									type='text',
+									name='dynamicViscosity',
+									ng-model='data.MaterialDriveControls.MaterialDensity'
+									required)
+									small.help-block(
+									ng-show='newProject.dynamicViscosity.$invalid && newProject.dynamicViscosity.$dirty')
+										|  Material Density is required
+						.form-group(ng-hide='data.MaterialDriveControls.StandardImpellerMaterial')
+							div.row
+								label.col-lg-4(
+								class='control-label',
+								for='order-no') Material Yield Strength[N/mm*2]
+								div.col-lg-2
+									input#dynamicViscosity(
+									class='form-control ',
+									type='text',
+									name='dynamicViscosity',
+									ng-model='data.MaterialDriveControls.MaterialYieldStrength',
+									placeholder='Enter Material Yield Strength',
+									required)
+									small.help-block(
+									ng-show='newProject.dynamicViscosity.$invalid && newProject.dynamicViscosity.$dirty')
+										|  Material Yield Strength[N/mm*2] is required
+						.form-group
+							div.row 
+								label.col-lg-4(
+								class='control-label',
+								for='project-name') Drive
+								div.col-lg-4
+									button.btn.btn-primary.btn-circle(type="button",tabindex='-1',ng-model="data.MaterialDriveControls.Drive",btn-radio="'K'") V-Belt
+									button.btn.btn-primary.btn-circle(type="button",tabindex='-1',ng-model="data.MaterialDriveControls.Drive",btn-radio="'D'") Direct
+						.form-group(ng-hide='data.MaterialDriveControls.direct')
+							div.row
+								label.col-lg-4(
+								class='control-label',
+								for='order-no') IEC Standard Motor
+								div.col-lg-3
+									.checkbox-inline
+										input(type='checkbox',ng-model='data.MaterialDriveControls.IECStandardMotor')
+						.form-group(ng-hide='data.MaterialDriveControls.direct')
+							div.row
+								label.col-lg-4(
+								class='control-label',
+								for='project-name') Nominal Motor Speed
+								div.col-lg-7
+									select.form-control(ng-model='data.MaterialDriveControls.NominalMotorSpeed',placeholder='Select value')
+										option(value='') Select Motor Speed..
+										option(value='0') 3000 rpm
+										option(value='1') 1500 rpm
+										option(value='2') 1000 rpm
+										option(value='3') 750 rpm
+
+						.form-group
+							div.row
+								label.col-lg-4(
+								class='control-label',
+								for='order-no') Noises Data Required
+								div.col-lg-1
+									.checkbox-inline
+										input(type='checkbox',ng-model='data.MaterialDriveControls.NoiseDataRequired')
+
+						.form-group
+							a.btn.btn-primary.pull-left(href='#/{{state}}/fanAssembling') Previous
+						.form-group(ng-show='data.MaterialDriveControls.NoiseDataRequired')
+							a.btn.btn-primary.pull-right(href='#/{{state}}/noiseData') Next
+						.form-group(ng-hide='data.MaterialDriveControls.NoiseDataRequired')
+							button.btn.btn-primary.pull-right(type='submit',ng-click='resultview()') Submit
+			div.row
+				.form-group
+					div.col-lg-4
+						button.btn.btn-success.pull-left
+						span.pull-left   &nbsp; Selected &nbsp;
+						button.btn.btn-primary.pull-left
+						span.pull-left  &nbsp; Not selected

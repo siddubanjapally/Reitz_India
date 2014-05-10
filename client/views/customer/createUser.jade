@@ -1,0 +1,32 @@
+ng-include(src="'views/nav.html'")
+div#page-wrapper
+	br
+	div.row
+		div.col-lg-12
+			.col-sm-7.col-sm-offset-2
+				div.alert.alert-success(ng-show="errorMode")
+					a.close(data-dismiss='alert') x
+					h4.alert-heading Success!
+					| Successfully created user
+				.panel.panel-primary
+					.panel-heading
+						h3.panel-title.text-center Create User
+					.panel-body
+						.col-sm-10.col-sm-offset-1
+							form#createUser.form(role='form',name='myForm')
+								.form-group
+									label.control-label(for='createname') UserName
+									input#createname.form-control(type='text',ng-model='data.username', name='username', placeholder='Username',required)
+								.form-group
+									label.control-label(for='password') Password
+									input#pasword.form-control(type='password',ng-model='data.password', name='password', placeholder='Password',required)
+								.form-group(ng-class="{ 'has-error' : myForm.data.$invalid && !myForm.data.$pristine }")
+									label.control-label(for='confirm-pasword') Confirm Password
+									input#confirmpasword.form-control(type='password',ng-model='data.confirmPassword', name='confirmPassword', placeholder='Confirm Password',required,data-password-verify='data.password')
+									span.help-block(data-ng-show="myForm.confirmPassword.$error.passwordVerify" style='color: red;') Passwords do not match.
+								.form-group
+									button#create-btn.btn.btn-primary.pull-right(type='submit',data-ng-disabled="myForm.$invalid",ng-click='createUser()') Create
+				.col-sm-10.col-sm-offset-1
+
+
+

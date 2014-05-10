@@ -1,0 +1,21 @@
+ng-include(src="'views/nav.html'")
+div#page-wrapper
+	div.row
+		div.col-lg-12
+			br
+			br
+			br
+			br
+			#actions
+				.col-md-4
+					a(href='',ng-click='gotoNewProject()')
+						img.img-responsive.img-circle(src='./images/FanProject_New.png')
+					h3 New Project
+				.col-md-4
+					a(href='#/edit/projectslist')
+						img.img-responsive.img-circle(src='./images/FanProject_Open.png')
+					h3 Edit Project
+				.col-md-4
+					a(href='')
+						img.img-responsive.img-circle(src='./images/FanProject_Clone.png')
+					h3 Clone Project
