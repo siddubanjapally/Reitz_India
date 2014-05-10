@@ -3,9 +3,6 @@
     data = chartService.inputdata
 #    console.log data
 #    console.log chartService.reportdata
-    if chartService.reportdata.shafthub is 0
-      chartService.reportdata.shafthub = chartService.reportdata.old_shafthub
-      chartService.reportdata.shaftbrg = chartService.reportdata.old_shaftbrg
     gsop = _.map chartService.inputdata.GasOperatingPoints,(item)->
       {"T":item.T,"P1":item.P,"Vi":item.Vi,"Vp":item.Vp,"Dpt":item.Dpt,"Ro":item.Ro}
 
@@ -14,12 +11,15 @@
     ,'InletBox':data.FanAssemblies.InletBox,'OutletSilencer':data.FanAssemblies.OutletSilencer,'OutletOtherParts':data.FanAssemblies.OutletOtherParts,'InletOtherParts':data.FanAssemblies.InletOtherParts
     ,'PressureDifference':data.FanAssemblies.PressureDifference,'MechanicalDesignTemperature':data.MaterialDriveControls.MechanicalDesignTemperature
     ,'Drive':data.MaterialDriveControls.Drive,'InletOutletDuct':data.MaterialDriveControls.InletOutletDuct
-    ,'StandardImpellerMaterial':data.MaterialDriveControls.StandardImpellerMaterial})
+    ,'StandardImpellerMaterial':data.MaterialDriveControls.StandardImpellerMaterial,"NoiseDataRequired":data.MaterialDriveControls.NoiseDataRequired
+    ,"FanLocation":data.Noises.FanLocation,"RoomAbsorptionArea":data.Noises.RoomAbsorptionArea,"BackgroundNoiseCorrection":data.Noises.BackgroundNoiseCorrection
+    ,"HousingMetalPlateThickness":data.Noises.HousingMetalPlateThickness,"DistanceBetweenStiffners":data.Noises.DistanceBetweenStiffners,"HousingMaterial":data.Noises.HousingMaterial
+    })
 
-    if data.MaterialDriveControls.NoiseDataRequired
-      _.assign fanProject,angular.toJson({"NoiseDataRequired":data.MaterialDriveControls.NoiseDataRequired
-      ,"FanLocation":data.Noises.FanLocation,"RoomAbsorptionArea":data.Noises.RoomAbsorptionArea,"BackgroundNoiseCorrection":data.Noises.BackgroundNoiseCorrection
-      ,"HousingMetalPlateThickness":data.Noises.HousingMetalPlateThickness,"DistanceBetweenStiffners":data.Noises.DistanceBetweenStiffners,"HousingMaterial":data.Noises.HousingMaterial})
+#    if data.MaterialDriveControls.NoiseDataRequired
+#      _.assign fanProject,angular.toJson({"NoiseDataRequired":data.MaterialDriveControls.NoiseDataRequired
+#      ,"FanLocation":data.Noises.FanLocation,"RoomAbsorptionArea":data.Noises.RoomAbsorptionArea,"BackgroundNoiseCorrection":data.Noises.BackgroundNoiseCorrection
+#      ,"HousingMetalPlateThickness":data.Noises.HousingMetalPlateThickness,"DistanceBetweenStiffners":data.Noises.DistanceBetweenStiffners,"HousingMaterial":data.Noises.HousingMaterial})
 
     $window.fanProject = fanProject
     $window.fanResult = angular.toJson(chartService.reportdata)

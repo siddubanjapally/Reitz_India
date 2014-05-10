@@ -41,25 +41,25 @@
         Vp:''
         Ro:''
       FanAssemblies:
-        InletSoundSilencer: 0
-        EvaseOutlet_InletAreaRatio: 0
-        InletBox: 0
-        OutletSilencer: 0
-        OutletOtherParts: 0
-        InletOtherParts:0
-        Pressure_Difference:0
+        InletSoundSilencer: '0'
+        EvaseOutlet_InletAreaRatio: '0'
+        InletBox: '0'
+        OutletSilencer: '0'
+        OutletOtherParts: '0'
+        InletOtherParts:'0'
+        Pressure_Difference:'0'
       GasDatas:
         BarometricPressure_Elevation: 0.0
         GasDustload: 0
-        VpUnit: '60'
-        DptUnit: '10'
+        VpUnit: '1'
+        DptUnit: '1'
         VpUnits : 'M3/S'
         DptUnits: 'PA'
       MaterialDriveControls:
         DesignType: null
         Width: '1'
         BackBlades:false
-        StandardImpellerMaterial: false
+        StandardImpellerMaterial: true
         IECStandardMotor:false
         NominalMotorSpeed:null
         MotorSpeed:0
@@ -69,10 +69,10 @@
         IVCPosition:false
         Drive:'K'
         MaterialName: null
-        MaterialDensity:''
+        MaterialDensity:0
         direct:true
       Noises:
-        Design: 0
+        Design:0
         FanLocation: 1
         HousingMaterial:0
         RoomAbsorptionArea: '0'

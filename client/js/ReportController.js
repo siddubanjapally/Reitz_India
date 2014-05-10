@@ -3,10 +3,6 @@
   (angular.module('reitz')).controller('ReportController', function($scope, $modalInstance, $window, chartService, projectservice) {
     var data, fanProject, gsop;
     data = chartService.inputdata;
-    if (chartService.reportdata.shafthub === 0) {
-      chartService.reportdata.shafthub = chartService.reportdata.old_shafthub;
-      chartService.reportdata.shaftbrg = chartService.reportdata.old_shaftbrg;
-    }
     gsop = _.map(chartService.inputdata.GasOperatingPoints, function(item) {
       return {
         "T": item.T,
@@ -47,19 +43,15 @@
       'MechanicalDesignTemperature': data.MaterialDriveControls.MechanicalDesignTemperature,
       'Drive': data.MaterialDriveControls.Drive,
       'InletOutletDuct': data.MaterialDriveControls.InletOutletDuct,
-      'StandardImpellerMaterial': data.MaterialDriveControls.StandardImpellerMaterial
+      'StandardImpellerMaterial': data.MaterialDriveControls.StandardImpellerMaterial,
+      "NoiseDataRequired": data.MaterialDriveControls.NoiseDataRequired,
+      "FanLocation": data.Noises.FanLocation,
+      "RoomAbsorptionArea": data.Noises.RoomAbsorptionArea,
+      "BackgroundNoiseCorrection": data.Noises.BackgroundNoiseCorrection,
+      "HousingMetalPlateThickness": data.Noises.HousingMetalPlateThickness,
+      "DistanceBetweenStiffners": data.Noises.DistanceBetweenStiffners,
+      "HousingMaterial": data.Noises.HousingMaterial
     });
-    if (data.MaterialDriveControls.NoiseDataRequired) {
-      _.assign(fanProject, angular.toJson({
-        "NoiseDataRequired": data.MaterialDriveControls.NoiseDataRequired,
-        "FanLocation": data.Noises.FanLocation,
-        "RoomAbsorptionArea": data.Noises.RoomAbsorptionArea,
-        "BackgroundNoiseCorrection": data.Noises.BackgroundNoiseCorrection,
-        "HousingMetalPlateThickness": data.Noises.HousingMetalPlateThickness,
-        "DistanceBetweenStiffners": data.Noises.DistanceBetweenStiffners,
-        "HousingMaterial": data.Noises.HousingMaterial
-      }));
-    }
     $window.fanProject = fanProject;
     $window.fanResult = angular.toJson(chartService.reportdata);
     return $scope.cancel = function() {
