@@ -13,7 +13,7 @@
         "Ro": item.Ro
       };
     });
-    fanProject = angular.toJson({
+    fanProject = {
       "Proposal_OrderNo": data.Proposal_OrderNo,
       "GasDatas": [
         {
@@ -44,6 +44,10 @@
       'Drive': data.MaterialDriveControls.Drive,
       'InletOutletDuct': data.MaterialDriveControls.InletOutletDuct,
       'StandardImpellerMaterial': data.MaterialDriveControls.StandardImpellerMaterial,
+      "MaterialName": data.MaterialDriveControls.MaterialName,
+      "MaterialDensity": data.MaterialDriveControls.MaterialDensity,
+      "MaterialYieldStrength": data.MaterialDriveControls.MaterialYieldStrength,
+      "IECStandardMotor": data.MaterialDriveControls.IECStandardMotor,
       "NoiseDataRequired": data.MaterialDriveControls.NoiseDataRequired,
       "FanLocation": data.Noises.FanLocation,
       "RoomAbsorptionArea": data.Noises.RoomAbsorptionArea,
@@ -51,8 +55,17 @@
       "HousingMetalPlateThickness": data.Noises.HousingMetalPlateThickness,
       "DistanceBetweenStiffners": data.Noises.DistanceBetweenStiffners,
       "HousingMaterial": data.Noises.HousingMaterial
-    });
-    $window.fanProject = fanProject;
+    };
+    if (data.MaterialDriveControls.NominalMotorSpeed === null) {
+      _.assign(fanProject, {
+        "NominalMotorSpeed": 0
+      });
+    } else {
+      _.assign(fanProject, {
+        "NominalMotorSpeed": data.MaterialDriveControls.NominalMotorSpeed
+      });
+    }
+    $window.fanProject = angular.toJson(fanProject);
     $window.fanResult = angular.toJson(chartService.reportdata);
     return $scope.cancel = function() {
       return $modalInstance.dismiss('cancel');

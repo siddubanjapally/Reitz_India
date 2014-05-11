@@ -19,7 +19,7 @@
 #findshaftdia is added to find shaft dia at hub using object of fan and weight by Naitik
     findShaftDia = (result,w)->
       console.log result
-      if result[0].Rpm is 2500 || result[0].Rpm is 3000
+      if result[0].Rpm is 2500 || result[0].Rpm is 3500
         weight = getWeight1(w)
       else
         weight = getWeight(w) # search and get weight from graph(whatever weights we are having in database
@@ -117,7 +117,7 @@
     calWeightForging = (sftdia, bs) ->
       dia = Math.pow sftdia/1000,2
       return Math.round dia * (bs + 500) * 7.85 * (3.143 / 4)
-
+    $scope.showreportimg=true
     $scope.getRievent = (rivent,index)->
 #      $scope.getRow rivent,index
       chartService.reportdata = rivent
@@ -150,8 +150,8 @@
 
     $scope.getRow = (data,index) ->
 #      console.log 'get_row'
+      $scope.showreportimg=false
       currentrow = $scope.tableParams.data[index]
-#      console.log currentrow
 #      ReitzResources.fanseries.get({id:Math.floor(data.Series)}).$promise.then (result)->
 #        $scope.fanseries = result
 #        Weight_factor = $scope.fanseries.ImpellerScantllingsFactors[0].WeightFactor
@@ -160,6 +160,7 @@
 #        $scope.single_double_width = _.find $scope.fanseries.CentrifugalFanSeries,{NominalSize:data.NominalSize}
 
       if +$scope.postdata.MaterialDriveControls.Width is 1
+        currentrow.Total =Math.round(currentrow.BackPlate+currentrow.ShroudPlate+currentrow.Blades+currentrow.Hub)
         if $scope.postdata.MaterialDriveControls.FanType is 'KBA'
           currentrow.Hub = Math.round(currentrow.Hub * 1.5)
           currentrow.Total =Math.round(currentrow.BackPlate+currentrow.ShroudPlate+currentrow.Blades+currentrow.Hub)
@@ -489,7 +490,7 @@
         ),
         $scope: $scope
       })
-    #console.log JSON.stringify(projectservice.createJson($scope.postdata))
+    console.log JSON.stringify(projectservice.createJson($scope.postdata))
     ReitzResources.fanresultpost.create(JSON.stringify(projectservice.createJson($scope.postdata))).$promise.then (result)->
       if !_.isEmpty(result)
         result = _.sortBy(result,'Efficiency').reverse()
@@ -500,6 +501,7 @@
           item.Hub = Math.round item.Hub
           item.FanSpeed = item.FanSpeed + 1.8
           _.assign item,{backPlate1 : 0,shroudPlate1 : 0,blades1 : 0,hub1 : 0,OuterBladeDiameter1:0 ,inletBoxSize1:0,inletBoxSize2:0 ,oldGD2: 0, newGD2:0,A:0,B:0,bearingSpan:0,liner: 0,wearPlate :0,shafthub:0,shaftbrg:0,Total1:0, old_shafthub:0, old_shaftbrg:0,old_wtForging:0,wtForging:0}
+#          item = impellerCalculations(item)
         $scope.result = result
 #        console.log result[0]
         tableData()

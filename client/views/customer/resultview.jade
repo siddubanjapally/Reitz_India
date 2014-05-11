@@ -20,9 +20,9 @@ div#page-wrapper
 							tbody(ng-repeat='rivent in $data')
 								tr
 									td
-										a(href='',ng-click='rivent.$hideRows = !rivent.$hideRows;getRow(rivent,$index)')
+										a(href='',ng-click='rivent.$hideRows = !rivent.$hideRows;getRow(rivent,$index);showreportimg=false')
 											span.glyphicon(ng-class=" { 'glyphicon-chevron-right': !rivent.$hideRows, 'glyphicon-chevron-down': rivent.$hideRows }")
-									td
+									td(ng-disabled='showreportimg')
 										a(href='',ng-click='getRievent(rivent,$index)')
 											img.report-img(ng-src='./images/report.png')
 									//td(sortable="'Series'",data-title="'Series'",header-class="text-middle",filter="{'Series':'text'}") {{rivent.Series}}
@@ -96,7 +96,7 @@ div#page-wrapper
 													div.row
 														label.control-label.col-lg-7 Select Fan Speed:
 														div.col-lg-5
-															select.form-control(ng-model='data.FanSpeed',ng-change='editMode1 =true;backplateedit =true;shroudedit =true; bladesedit =true;changeDia(data,$index);')
+															select.form-control(ng-model='data.FanSpeed',ng-change='editMode1 =true;backplateedit =true;shroudedit =true; bladesedit =true;impelleredit=true;changeDia(data,$index);')
 																option(selected='true') 490
 																option 590
 																option 705
@@ -209,7 +209,7 @@ div#page-wrapper
 														div.row
 															label.control-label.col-sm-5 BackPlate(Thickness):
 															div.col-sm-5
-																select.form-control.col-sm-6(ng-model="seriesBackplate",ng-options="c.Backplate_mm for c in ImpScl",ng-change="selectedBackPlate(seriesBackplate,$index);backplateedit=true")
+																select.form-control.col-sm-6(ng-model="seriesBackplate",ng-options="c.Backplate_mm for c in ImpScl",ng-change="selectedBackPlate(seriesBackplate,$index);backplateedit=true;impelleredit=true")
 														div.row
 															label.control-label.col-sm-5  Shroud(Thickness):
 															div.col-sm-5
@@ -286,28 +286,28 @@ div#page-wrapper
 															label.control-label.col-sm-5 New Blades :
 															div.col-sm-4
 																span  {{rivent.blades1}}
-														div.row(ng-show='backplateedit')
+														div.row(ng-show='impelleredit')
 															label.control-label.col-sm-5 New Hub :
 															div.col-sm-4
 																span  {{rivent.hub1 }}
-														div.row(ng-show='backplateedit')
+														div.row(ng-show='impelleredit')
 															label.control-label.col-sm-5 Weight of Impeller:
 															div.col-sm-4
 																span  {{rivent.Total1 }}
-														div.row(ng-show='backplateedit')
+														div.row(ng-show='impelleredit')
 															label.control-label.col-sm-5 New GD^2 :
 															div.col-sm-4
 																span  {{rivent.newGD2 }}
 
-														div.row(ng-show='backplateedit')
+														div.row(ng-show='impelleredit')
 															label.control-label.col-sm-5  New Shaft Dia Hub:
 															div.col-sm-5
 																span {{rivent.shafthub }}
-														div.row(ng-show='backplateedit')
+														div.row(ng-show='impelleredit')
 															label.control-label.col-sm-5  New Shaft Dia Brg:
 															div.col-sm-5
 																span {{rivent.shaftbrg }}
-														div.row(ng-show='backplateedit')
+														div.row(ng-show='impelleredit')
 															label.control-label.col-sm-5  New Shaft Wt.Forging:
 															div.col-sm-5
 																span {{rivent.wtForging }}

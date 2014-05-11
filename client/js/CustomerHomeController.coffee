@@ -43,7 +43,7 @@
           MaterialYieldStrength: 0
           IVCPosition:false
           Drive:'K'
-          MaterialName: null
+          MaterialName: ''
           MaterialDensity:0
           direct:true
         Noises:

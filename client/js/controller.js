@@ -24,7 +24,7 @@
     findShaftDia = function(result, w) {
       var hub, hub1, hub2, weight;
       console.log(result);
-      if (result[0].Rpm === 2500 || result[0].Rpm === 3000) {
+      if (result[0].Rpm === 2500 || result[0].Rpm === 3500) {
         weight = getWeight1(w);
       } else {
         weight = getWeight(w);
@@ -149,6 +149,7 @@
       dia = Math.pow(sftdia / 1000, 2);
       return Math.round(dia * (bs + 500) * 7.85 * (3.143 / 4));
     };
+    $scope.showreportimg = true;
     $scope.getRievent = function(rivent, index) {
       chartService.reportdata = rivent;
       chartService.inputdata = $scope.postdata;
@@ -165,8 +166,10 @@
     };
     $scope.getRow = function(data, index) {
       var currentrow;
+      $scope.showreportimg = false;
       currentrow = $scope.tableParams.data[index];
       if (+$scope.postdata.MaterialDriveControls.Width === 1) {
+        currentrow.Total = Math.round(currentrow.BackPlate + currentrow.ShroudPlate + currentrow.Blades + currentrow.Hub);
         if ($scope.postdata.MaterialDriveControls.FanType === 'KBA') {
           currentrow.Hub = Math.round(currentrow.Hub * 1.5);
           currentrow.Total = Math.round(currentrow.BackPlate + currentrow.ShroudPlate + currentrow.Blades + currentrow.Hub);
@@ -600,6 +603,7 @@
         $scope: $scope
       });
     };
+    console.log(JSON.stringify(projectservice.createJson($scope.postdata)));
     return ReitzResources.fanresultpost.create(JSON.stringify(projectservice.createJson($scope.postdata))).$promise.then(function(result) {
       if (!_.isEmpty(result)) {
         result = _.sortBy(result, 'Efficiency').reverse();
