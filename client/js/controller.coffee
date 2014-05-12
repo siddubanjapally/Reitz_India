@@ -18,7 +18,7 @@
 
 #findshaftdia is added to find shaft dia at hub using object of fan and weight by Naitik
     findShaftDia = (result,w)->
-      console.log result
+#      console.log result
       if result[0].Rpm is 2500 || result[0].Rpm is 3500
         weight = getWeight1(w)
       else
@@ -409,7 +409,7 @@
     tableData =()->
       $scope.tableParams = new ngTableParams({
         page:1,
-        count:10,
+        count:15,
         filter: {
           Series: ''
         },
@@ -421,12 +421,10 @@
         total:0,
         getData :( ($defer,params)->
           fanspeed =params.filter().FanSpeed
-          console.log params.filter()
           nomenclature =params.filter().Nomenclature
           filteredData = if params.filter() then $filter('filter')($scope.result, _.omit(params.filter(),['FanSpeed','Nomenclature'])) else $scope.result
           fanrangeData =(filteredData,fanspeed)->
             f=fanspeed.split(',')
-            console.log f
             if f[1] isnt undefined
               _.filter(filteredData,(fan)->
 
@@ -434,10 +432,8 @@
                   return fan
               )
             else
-              console.log {FanSpeed:f[0]}
               $filter('filter')(filteredData,{FanSpeed:f[0]})
           nomenclatureRange =(fanData,nomenclature)->
-            console.log typeof nomenclature
             if nomenclature.search('-') isnt -1
               n=nomenclature.split('-')
               if n[1] isnt undefined
@@ -462,14 +458,12 @@
             fanData=fanrangeData(filteredData,fanspeed)
             orderedData = if params.sorting() then $filter('orderBy')(fanData,params.orderBy()) else $scope.result
             params.total(orderedData.length)
-            console.log orderedData
             $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()))
 
           else if nomenclature and (fanspeed is undefined or fanspeed is "")
             nomenclatureData =nomenclatureRange(filteredData,nomenclature)
             orderedData = if params.sorting() then $filter('orderBy')(nomenclatureData,params.orderBy()) else $scope.result
             params.total(orderedData.length)
-            console.log orderedData
             $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()))
 
           else if nomenclature and fanspeed
@@ -478,19 +472,17 @@
 
             orderedData = if params.sorting() then $filter('orderBy')(fanData,params.orderBy()) else $scope.result
             params.total(orderedData.length)
-            console.log orderedData
             $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()))
           else
             orderedData = if params.sorting() then $filter('orderBy')(filteredData,params.orderBy()) else $scope.result
             params.total(orderedData.length)
-            console.log orderedData
             $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()))
 
 
         ),
         $scope: $scope
       })
-    console.log JSON.stringify(projectservice.createJson($scope.postdata))
+#    console.log JSON.stringify(projectservice.createJson($scope.postdata))
     ReitzResources.fanresultpost.create(JSON.stringify(projectservice.createJson($scope.postdata))).$promise.then (result)->
       if !_.isEmpty(result)
         result = _.sortBy(result,'Efficiency').reverse()

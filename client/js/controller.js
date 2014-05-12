@@ -23,7 +23,6 @@
     };
     findShaftDia = function(result, w) {
       var hub, hub1, hub2, weight;
-      console.log(result);
       if (result[0].Rpm === 2500 || result[0].Rpm === 3500) {
         weight = getWeight1(w);
       } else {
@@ -507,7 +506,7 @@
     tableData = function() {
       return $scope.tableParams = new ngTableParams({
         page: 1,
-        count: 10,
+        count: 15,
         filter: {
           Series: ''
         },
@@ -520,13 +519,11 @@
         getData: (function($defer, params) {
           var fanData, fanrangeData, fanspeed, filteredData, nomenclature, nomenclatureData, nomenclatureRange, orderedData;
           fanspeed = params.filter().FanSpeed;
-          console.log(params.filter());
           nomenclature = params.filter().Nomenclature;
           filteredData = params.filter() ? $filter('filter')($scope.result, _.omit(params.filter(), ['FanSpeed', 'Nomenclature'])) : $scope.result;
           fanrangeData = function(filteredData, fanspeed) {
             var f;
             f = fanspeed.split(',');
-            console.log(f);
             if (f[1] !== void 0) {
               return _.filter(filteredData, function(fan) {
                 var _ref;
@@ -535,9 +532,6 @@
                 }
               });
             } else {
-              console.log({
-                FanSpeed: f[0]
-              });
               return $filter('filter')(filteredData, {
                 FanSpeed: f[0]
               });
@@ -545,7 +539,6 @@
           };
           nomenclatureRange = function(fanData, nomenclature) {
             var a, n;
-            console.log(typeof nomenclature);
             if (nomenclature.search('-') !== -1) {
               n = nomenclature.split('-');
               if (n[1] !== void 0) {
@@ -578,32 +571,27 @@
             fanData = fanrangeData(filteredData, fanspeed);
             orderedData = params.sorting() ? $filter('orderBy')(fanData, params.orderBy()) : $scope.result;
             params.total(orderedData.length);
-            console.log(orderedData);
             return $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
           } else if (nomenclature && (fanspeed === void 0 || fanspeed === "")) {
             nomenclatureData = nomenclatureRange(filteredData, nomenclature);
             orderedData = params.sorting() ? $filter('orderBy')(nomenclatureData, params.orderBy()) : $scope.result;
             params.total(orderedData.length);
-            console.log(orderedData);
             return $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
           } else if (nomenclature && fanspeed) {
             nomenclatureData = nomenclatureRange(filteredData, nomenclature);
             fanData = fanrangeData(nomenclatureData, fanspeed);
             orderedData = params.sorting() ? $filter('orderBy')(fanData, params.orderBy()) : $scope.result;
             params.total(orderedData.length);
-            console.log(orderedData);
             return $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
           } else {
             orderedData = params.sorting() ? $filter('orderBy')(filteredData, params.orderBy()) : $scope.result;
             params.total(orderedData.length);
-            console.log(orderedData);
             return $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
           }
         }),
         $scope: $scope
       });
     };
-    console.log(JSON.stringify(projectservice.createJson($scope.postdata)));
     return ReitzResources.fanresultpost.create(JSON.stringify(projectservice.createJson($scope.postdata))).$promise.then(function(result) {
       if (!_.isEmpty(result)) {
         result = _.sortBy(result, 'Efficiency').reverse();
