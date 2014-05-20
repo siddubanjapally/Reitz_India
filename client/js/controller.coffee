@@ -117,29 +117,12 @@
     calWeightForging = (sftdia, bs) ->
       dia = Math.pow sftdia/1000,2
       return Math.round dia * (bs + 500) * 7.85 * (3.143 / 4)
-    $scope.showreportimg=true
+    $scope.linersRequired = false
     $scope.getRievent = (rivent,index)->
 #      $scope.getRow rivent,index
       chartService.reportdata = rivent
       chartService.inputdata = $scope.postdata
 
-#      $timeout(()->
-#      if rivent.shafthub is 0
-#        rivent.shafthub = rivent.old_shafthub
-#        rivent.shaftbrg = rivent.old_shaftbrg
-#        chartService.reportdata = rivent
-#        chartService.inputdata = $scope.postdata
-#      else
-#        chartService.reportdata = rivent
-#        chartService.inputdata = $scope.postdata
-#      ,400)
-#      modalInstance = $modal.open({
-#        modalTemplate: '<div class="modal modal-dialog modal-content" ng-transclude></div>',
-#        templateUrl: 'views/report.html',
-#        width:'custom-width',
-#        backdrop: 'static',
-#        controller:'ReportController'
-#      })
       $timeout(( ()-> modalInstance = $modal.open({
         modalTemplate: '<div class="modal modal-dialog modal-content" ng-transclude></div>',
         templateUrl: 'report.html',
@@ -147,31 +130,23 @@
         backdrop: 'static',
         controller:'ReportController'
       })),500)
-
-    $scope.getRow = (data,index) ->
-#      console.log 'get_row'
-      $scope.showreportimg=false
+    $scope.showreportimg=false
+    newDiaCalculation = (newobj)->
+      Math.round(Math.pow(((checkDia(newobj.OuterBladeDiameter1,newobj.OuterBladeDiameter))/1000),2)*1000)/1000
+    $scope.getRow = (data,index,element) ->
+      console.log element
       currentrow = $scope.tableParams.data[index]
-#      ReitzResources.fanseries.get({id:Math.floor(data.Series)}).$promise.then (result)->
-#        $scope.fanseries = result
-#        Weight_factor = $scope.fanseries.ImpellerScantllingsFactors[0].WeightFactor
-#        data.oldGD2 =  4.2*(data.BackPlate + data.ShroudPlate  + data.Blades ) * Math.pow(((data.OuterBladeDiameter/1000)* Weight_factor),2)
-#        $scope.seriesBackplate = $scope.seriesShroudplate = $scope.seriesBlade   = _.find $scope.fanseries.ImpellerScantllings,{Size:data.NominalSize}
-#        $scope.single_double_width = _.find $scope.fanseries.CentrifugalFanSeries,{NominalSize:data.NominalSize}
-
       if +$scope.postdata.MaterialDriveControls.Width is 1
         currentrow.Total =Math.round(currentrow.BackPlate+currentrow.ShroudPlate+currentrow.Blades+currentrow.Hub)
         if $scope.postdata.MaterialDriveControls.FanType is 'KBA'
           currentrow.Hub = Math.round(currentrow.Hub * 1.5)
           currentrow.Total =Math.round(currentrow.BackPlate+currentrow.ShroudPlate+currentrow.Blades+currentrow.Hub)
-#          console.log currentrow
       else
-#              currentrow.BackPlate = currentrow.BackPlate
+        $scope.linersRequired = true
         currentrow.ShroudPlate = Math.round(currentrow.ShroudPlate * 2)
         currentrow.Blades = Math.round(currentrow.Blades * 2)
         currentrow.Hub = Math.round(currentrow.Hub * 2)
         currentrow.Total =Math.round(currentrow.BackPlate+currentrow.ShroudPlate+currentrow.Blades+currentrow.Hub)
-#        console.log currentrow
       $scope.inletweight = _.find $scope.inletBoxSizes,{NominalSize:data.NominalSize,Width:+$scope.postdata.MaterialDriveControls.Width}
 
       if $scope.inletweight isnt undefined
@@ -232,9 +207,6 @@
     $scope.changeDia =(data,index)->
       $scope.newFanSpeed = data.FanSpeed
       currentrow = $scope.tableParams.data[index]
-#      console.log $scope.row.FanSpeed
-#      console.log data.FanSpeed
-#      console.log $scope.row.OuterBladeDiameter
       currentrow.OuterBladeDiameter1 =Math.ceil (($scope.row.FanSpeed )/data.FanSpeed)*$scope.row.OuterBladeDiameter
       $scope.selectedBackPlate $scope.seriesBackplate,index
       $scope.selectedShroudPlate $scope.seriesShroudplate,index
@@ -246,7 +218,8 @@
       Weight_factor = $scope.fanseries.ImpellerScantllingsFactors[0].WeightFactor
       #hubfactor = $scope.fanseries.ImpellerScantllingsFactors[0].HubFactor
       hubfactor = 2.5
-      dia = Math.round(Math.pow(((checkDia($scope.row.OuterBladeDiameter1,$scope.row.OuterBladeDiameter))/1000),2)*1000)/1000
+#      dia = Math.round(Math.pow(((checkDia($scope.row.OuterBladeDiameter1,$scope.row.OuterBladeDiameter))/1000),2)*1000)/1000
+      dia = newDiaCalculation($scope.row)
       currentrow.backPlate1 = Math.round((parseFloat(data.Backplate_mm) * parseFloat(blace_factor) * dia))
       currentrow.hub1 = Math.round((parseFloat(data.Backplate_mm) * parseFloat(hubfactor) * dia))
       $scope.row.Total1 = Math.round(currentrow.backPlate1+currentrow.hub1)
@@ -277,7 +250,8 @@
       currentrow = $scope.tableParams.data[index]
       factor = $scope.fanseries.ImpellerScantllingsFactors[0].ShroudFactor
       Weight_factor = $scope.fanseries.ImpellerScantllingsFactors[0].WeightFactor
-      dia = Math.round(Math.pow(((checkDia($scope.row.OuterBladeDiameter1,$scope.row.OuterBladeDiameter))/1000),2)*1000)/1000
+#      dia = Math.round(Math.pow(((checkDia($scope.row.OuterBladeDiameter1,$scope.row.OuterBladeDiameter))/1000),2)*1000)/1000
+      dia = newDiaCalculation($scope.row)
       currentrow.shroudPlate1 = Math.round((parseFloat(data.Shroud_mm) * parseFloat(factor) * dia))
       _.assign currentrow,{Shroud_mm:data.Shroud_mm}
       currentrow.newGD2 =Math.round( 4.2*(currentrow.backPlate1+currentrow.hub1+currentrow.shroudPlate1+currentrow.blades1)*Math.pow(((checkDia($scope.row.OuterBladeDiameter1,$scope.row.OuterBladeDiameter)/1000)*Weight_factor),2))
@@ -301,7 +275,8 @@
       currentrow = $scope.tableParams.data[index]
       factor = $scope.fanseries.ImpellerScantllingsFactors[0].BladeFactor
       Weight_factor = $scope.fanseries.ImpellerScantllingsFactors[0].WeightFactor
-      dia = Math.round(Math.pow(((checkDia($scope.row.OuterBladeDiameter1,$scope.row.OuterBladeDiameter))/1000),2)*1000)/1000
+#      dia = Math.round(Math.pow(((checkDia($scope.row.OuterBladeDiameter1,$scope.row.OuterBladeDiameter))/1000),2)*1000)/1000
+      dia = newDiaCalculation($scope.row)
       currentrow.blades1 = Math.round((parseFloat(data.Blade_mm) * parseFloat(factor) * dia))
 #      console.log currentrow
       _.assign currentrow,{Blade_mm:data.Blade_mm}
@@ -321,16 +296,26 @@
         currentrow.shafthub = Math.round(findShaftDia result,currentrow.Total1)
         currentrow.shaftbrg = Math.round(calShaftBrg  currentrow.shafthub)
         currentrow.wtForging = Math.round(calWeightForging  currentrow.shafthub, currentrow.bearingSpan)
-
+    changelinerandwearplate = (currentrow,Weight_factor)->
+      if currentrow.Total1 is 0
+        $scope.row.Total =Math.round(currentrow.BackPlate+currentrow.Hub+currentrow.ShroudPlate+currentrow.Blades+currentrow.liner+currentrow.wearPlate)
+        currentrow.oldGD2 =Math.round( 4.2*$scope.row.Total *Math.pow(((checkDia($scope.row.OuterBladeDiameter1,$scope.row.OuterBladeDiameter)/1000)*Weight_factor),2))
+        currentrow
+      else
+        $scope.row.Total1 =Math.round(currentrow.backPlate1+currentrow.hub1+currentrow.shroudPlate1+currentrow.blades1+currentrow.liner+currentrow.wearPlate)
+        currentrow.newGD2 =Math.round( 4.2*$scope.row.Total1 *Math.pow(((checkDia($scope.row.OuterBladeDiameter1,$scope.row.OuterBladeDiameter)/1000)*Weight_factor),2))
+        currentrow
     $scope.calculateLiner =(linear,percentage,index)->
       currentrow = $scope.tableParams.data[index]
       Weight_factor = $scope.fanseries.ImpellerScantllingsFactors[0].WeightFactor
       factor = $scope.fanseries.ImpellerScantllingsFactors[0].BladeFactor
-      dia = Math.round(Math.pow(((checkDia($scope.row.OuterBladeDiameter1,$scope.row.OuterBladeDiameter))/1000),2)*1000)/1000
+#      dia = Math.round(Math.pow(((checkDia($scope.row.OuterBladeDiameter1,$scope.row.OuterBladeDiameter))/1000),2)*1000)/1000
+      dia = newDiaCalculation($scope.row)
       if percentage isnt undefined and linear isnt undefined
         currentrow.liner =Math.round(factor * linear *dia* percentage)
-        $scope.row.Total1 =Math.round(currentrow.backPlate1+currentrow.hub1+currentrow.shroudPlate1+currentrow.blades1+currentrow.liner+currentrow.wearPlate)
-        currentrow.newGD2 =Math.round( 4.2*$scope.row.Total *Math.pow(((checkDia($scope.row.OuterBladeDiameter1,$scope.row.OuterBladeDiameter)/1000)*Weight_factor),2))
+        currentrow = changelinerandwearplate(currentrow,Weight_factor)
+#        $scope.row.Total1 =Math.round(currentrow.backPlate1+currentrow.hub1+currentrow.shroudPlate1+currentrow.blades1+currentrow.liner+currentrow.wearPlate)
+#        currentrow.newGD2 =Math.round( 4.2*$scope.row.Total *Math.pow(((checkDia($scope.row.OuterBladeDiameter1,$scope.row.OuterBladeDiameter)/1000)*Weight_factor),2))
       #.........New Shaft dia hub and shaft brg calculation
       if $scope.newFanSpeed isnt undefined
         getRpm = $scope.newFanSpeed
@@ -347,8 +332,9 @@
       Weight_factor = $scope.fanseries.ImpellerScantllingsFactors[0].WeightFactor
       if od isnt undefined and Id isnt undefined
         currentrow.wearPlate =Math.round((Math.pow(Id,2) - Math.pow(od,2)) *linear * 7.85* 3.14/4)
-        $scope.row.Total1 =Math.round(currentrow.backPlate1+currentrow.hub1+currentrow.shroudPlate1+currentrow.blades1+currentrow.liner+currentrow.wearPlate)
-        currentrow.newGD2 = Math.round(4.2*$scope.row.Total*Math.pow(((checkDia($scope.row.OuterBladeDiameter1,$scope.row.OuterBladeDiameter)/1000)*Weight_factor),2))
+        currentrow = changelinerandwearplate(currentrow,Weight_factor)
+#        $scope.row.Total1 =Math.round(currentrow.backPlate1+currentrow.hub1+currentrow.shroudPlate1+currentrow.blades1+currentrow.liner+currentrow.wearPlate)
+#        currentrow.newGD2 = Math.round(4.2*$scope.row.Total*Math.pow(((checkDia($scope.row.OuterBladeDiameter1,$scope.row.OuterBladeDiameter)/1000)*Weight_factor),2))
       #.........New Shaft dia hub and shaft brg calculation
       if $scope.newFanSpeed isnt undefined
         getRpm = $scope.newFanSpeed
@@ -362,10 +348,6 @@
 
     $scope.saveProjectInfo = () ->
       projectInfo = projectservice.data
-#      if !projectservice.data.MaterialDriveControls.NoiseDataRequired
-#        projectInfo.Noises = {}
-#        console.log projectInfo
-#      console.log projectInfo
       ReitzResources.fanproject.create(projectInfo).$promise.then (result)->
         console.log 'inserted successfully', result
 
@@ -392,7 +374,7 @@
           title:
             text: 'Ri-vent'
           xAxis:
-            categories: chartData.series
+            categories: chartData.nomenclature
           yAxis:
 #            categories:[chartData.Efficiency,chartData.speed]
             title:
@@ -408,8 +390,8 @@
 
     tableData =()->
       $scope.tableParams = new ngTableParams({
-        page:1,
-        count:15,
+#        page:1,
+#        count:15,
         filter: {
           Series: ''
         },
@@ -418,12 +400,12 @@
         }
       },{
         counts:[],
-        total:0,
+#        total:0,
         getData :( ($defer,params)->
-          fanspeed =params.filter().FanSpeed
+          fanspeed = params.filter().FanSpeed
           nomenclature =params.filter().Nomenclature
           filteredData = if params.filter() then $filter('filter')($scope.result, _.omit(params.filter(),['FanSpeed','Nomenclature'])) else $scope.result
-          fanrangeData =(filteredData,fanspeed)->
+          fanrangeData = (filteredData,fanspeed)->
             f=fanspeed.split(',')
             if f[1] isnt undefined
               _.filter(filteredData,(fan)->
@@ -457,32 +439,32 @@
           if fanspeed and (nomenclature is "" or nomenclature is undefined )
             fanData=fanrangeData(filteredData,fanspeed)
             orderedData = if params.sorting() then $filter('orderBy')(fanData,params.orderBy()) else $scope.result
-            params.total(orderedData.length)
-            $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()))
+#            params.total(orderedData.length)
+            $defer.resolve(orderedData)
 
           else if nomenclature and (fanspeed is undefined or fanspeed is "")
             nomenclatureData =nomenclatureRange(filteredData,nomenclature)
             orderedData = if params.sorting() then $filter('orderBy')(nomenclatureData,params.orderBy()) else $scope.result
-            params.total(orderedData.length)
-            $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()))
+#            params.total(orderedData.length)
+            $defer.resolve(orderedData)
 
           else if nomenclature and fanspeed
             nomenclatureData =nomenclatureRange(filteredData,nomenclature)
             fanData=fanrangeData(nomenclatureData,fanspeed)
 
             orderedData = if params.sorting() then $filter('orderBy')(fanData,params.orderBy()) else $scope.result
-            params.total(orderedData.length)
-            $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()))
+#            params.total(orderedData.length)
+            $defer.resolve(orderedData)
           else
             orderedData = if params.sorting() then $filter('orderBy')(filteredData,params.orderBy()) else $scope.result
-            params.total(orderedData.length)
-            $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()))
+#            params.total(orderedData.length)
+            $defer.resolve(orderedData)
 
 
         ),
         $scope: $scope
       })
-#    console.log JSON.stringify(projectservice.createJson($scope.postdata))
+    console.log JSON.stringify(projectservice.createJson($scope.postdata))
     ReitzResources.fanresultpost.create(JSON.stringify(projectservice.createJson($scope.postdata))).$promise.then (result)->
       if !_.isEmpty(result)
         result = _.sortBy(result,'Efficiency').reverse()
@@ -495,7 +477,6 @@
           _.assign item,{backPlate1 : 0,shroudPlate1 : 0,blades1 : 0,hub1 : 0,OuterBladeDiameter1:0 ,inletBoxSize1:0,inletBoxSize2:0 ,oldGD2: 0, newGD2:0,A:0,B:0,bearingSpan:0,liner: 0,wearPlate :0,shafthub:0,shaftbrg:0,Total1:0, old_shafthub:0, old_shaftbrg:0,old_wtForging:0,wtForging:0}
 #          item = impellerCalculations(item)
         $scope.result = result
-#        console.log result[0]
         tableData()
         generateChart(result)
         $scope.loading = false
