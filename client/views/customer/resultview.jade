@@ -15,14 +15,15 @@ div#page-wrapper
 					highchart(chart='{{renderChart.lineChart}}')
 
 				div.row
+
 					.col-sm-11
 						table(ng-hide='loading',ng-table='tableParams',class='table table-hover table-striped table-bordered',show-filter='true')
 							tbody(ng-repeat='rivent in $data')
 								tr
 									td
-										a(href='',ng-click='rivent.$hideRows = !rivent.$hideRows;getRow(rivent,$index);showreportimg=false')
+										a(href='',ng-click='rivent.$hideRows = !rivent.$hideRows;getRow(rivent,$index,$element)')
 											span.glyphicon(ng-class=" { 'glyphicon-chevron-right': !rivent.$hideRows, 'glyphicon-chevron-down': rivent.$hideRows }")
-									td(ng-disabled='showreportimg')
+									td
 										a(href='',ng-click='getRievent(rivent,$index)')
 											img.report-img(ng-src='./images/report.png')
 									//td(sortable="'Series'",data-title="'Series'",header-class="text-middle",filter="{'Series':'text'}") {{rivent.Series}}
@@ -35,7 +36,7 @@ div#page-wrapper
 									//td(sortable="'TipSpeed'",data-title="'TipSpeed'",filter="{'TipSpeed':'text'}") {{rivent.TipSpeed | number: 1}}
 									td(sortable="'FanSpeed'",data-title="'FanSpeed'",filter="{'FanSpeed':'text'}") {{rivent.FanSpeed | number: 1}}
 									td(data-title="'FanShaftPower'",filter="{'FanShaftPower':'text'}") {{rivent.FanShaftPower | number: 1}}
-								tr(ng-show='rivent.$hideRows')
+								tr(ng-if='rivent.$hideRows')
 									td(colspan='{{$columns.length}}')
 										tabset
 											tab(heading='Pressure')
@@ -97,7 +98,7 @@ div#page-wrapper
 														label.control-label.col-lg-7 Select Fan Speed:
 														div.col-lg-5
 															select.form-control(ng-model='data.FanSpeed',ng-change='editMode1 =true;backplateedit =true;shroudedit =true; bladesedit =true;impelleredit=true;changeDia(data,$index);')
-																option(selected='true') 490
+																option 490
 																option 590
 																option 705
 																option 740
@@ -127,15 +128,15 @@ div#page-wrapper
 											tab(heading='Blade')
 												fieldset.col-sm-6.col-sm-offset-2(class="row")
 													div.row
-														label.control-label.col-sm-7 Number Of Blade Cuts:
+														label.control-label.col-sm-8 Number Of Blade Cuts:
 														div.col-sm-4
 															span {{rivent.NumberOfBladeCuts }}
 													div.row
-														label.control-label.col-sm-7 Number Of Blade Extensions:
+														label.control-label.col-sm-8 Number Of Blade Extensions:
 														div.col-sm-4
 															span {{rivent.NumberOfBladeExtensions }}
 													div.row
-														label.control-label.col-sm-7 NominalOuter Blade Diameter(mm):
+														label.control-label.col-sm-8 NominalOuter Blade Diameter(mm):
 														div.col-sm-4
 															span {{rivent.NominalOuterBladeDiameter | number:1}}
 											tab(heading='Noises',ng-show='postdata.MaterialDriveControls.NoiseDataRequired')
@@ -205,6 +206,10 @@ div#page-wrapper
 															label.control-label.col-sm-5  Shaft at Wt.Forging:
 															div.col-sm-5
 																span {{rivent.old_wtForging }}
+														div.row(ng-hide='+postdata.MaterialDriveControls.Width == 2')
+															label.control-label.col-sm-5  Liners Required
+															div.col-sm-5
+																input(type='checkbox',ng-model='linersRequired')
 													fieldset.col-sm-5
 														div.row
 															label.control-label.col-sm-5 BackPlate(Thickness):
@@ -226,15 +231,15 @@ div#page-wrapper
 																select.form-control(ng-model="selectedItem",ng-options="c.InletBoxSizes for c in inletBoxSizes ",ng-change="update(rivent,selectedItem,$index)")
 												br
 												div.row
-													fieldset.col-sm-5.col-sm-offset-1
+													fieldset.col-sm-5.col-sm-offset-1(ng-show='linersRequired')
 
-														div.row(ng-show='+postdata.MaterialDriveControls.Width == 2')
+														div.row
 
 															label.control-label.col-sm-3.col-sm-offset-4 Linear:
 
 															label.control-label.col-sm-3 Percentage:
 
-														div.row(ng-show='+postdata.MaterialDriveControls.Width == 2')
+														div.row
 															label.control-label.col-sm-4 Liner:
 															div.col-sm-3
 																select.form-control(ng-model="selectedLinear",ng-change='calculateLiner(selectedLinear,selectedPercentage,$index)')
@@ -258,13 +263,13 @@ div#page-wrapper
 															div.col-sm-1
 																span {{rivent.liner | number:1}}
 
-														div.row(ng-show='+postdata.MaterialDriveControls.Width == 2')
+														div.row
 
 															label.control-label.col-sm-3.col-sm-offset-4 OD^2:
 
 															label.control-label.col-sm-3  ID^2:
 
-														div.row(ng-show='+postdata.MaterialDriveControls.Width == 2')
+														div.row
 															label.control-label.col-sm-4 Wear Plate :
 															div.col-sm-3
 																input.form-control(type='text',ng-model="selectedID",ng-change='calculateWearPlate(selectedID,selectedOD,selectedLinear,$index)')
