@@ -409,7 +409,6 @@
             f=fanspeed.split(',')
             if f[1] isnt undefined
               _.filter(filteredData,(fan)->
-
                 if +f[0]<=+fan.FanSpeed<=+f[1]
                   return fan
               )
@@ -432,7 +431,6 @@
                   a=_.union a,$filter('filter')(fanData,{Nomenclature:n[i]})
                 )
                 a
-
             else
               $filter('filter')(filteredData,{Nomenclature:nomenclature})
 

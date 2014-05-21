@@ -231,15 +231,15 @@ div#page-wrapper
 																select.form-control(ng-model="selectedItem",ng-options="c.InletBoxSizes for c in inletBoxSizes ",ng-change="update(rivent,selectedItem,$index)")
 												br
 												div.row
-													fieldset.col-sm-5.col-sm-offset-1(ng-show='linersRequired')
+													fieldset.col-sm-5.col-sm-offset-1
 
-														div.row
+														div.row(ng-show='linersRequired')
 
 															label.control-label.col-sm-3.col-sm-offset-4 Linear:
 
 															label.control-label.col-sm-3 Percentage:
 
-														div.row
+														div.row(ng-show='linersRequired')
 															label.control-label.col-sm-4 Liner:
 															div.col-sm-3
 																select.form-control(ng-model="selectedLinear",ng-change='calculateLiner(selectedLinear,selectedPercentage,$index)')
@@ -263,13 +263,13 @@ div#page-wrapper
 															div.col-sm-1
 																span {{rivent.liner | number:1}}
 
-														div.row
+														div.row(ng-show='linersRequired')
 
 															label.control-label.col-sm-3.col-sm-offset-4 OD^2:
 
 															label.control-label.col-sm-3  ID^2:
 
-														div.row
+														div.row(ng-show='linersRequired')
 															label.control-label.col-sm-4 Wear Plate :
 															div.col-sm-3
 																input.form-control(type='text',ng-model="selectedID",ng-change='calculateWearPlate(selectedID,selectedOD,selectedLinear,$index)')
