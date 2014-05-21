@@ -35,7 +35,7 @@ div#page-wrapper
 									td(data-title="'S.No.'", align='center') {{ $index+1 }}
 									td(sortable="'ProjectName'", data-title="'ProjectName'", align='center') {{ value.ProjectName }}
 									td(sortable="'Engineer'", data-title="'Engineer'", align='center') {{ value.Engineer }}
-									td(sortable="'Date'", data-title="'Date'", align='center') {{ value.Date }}
+									td(sortable="'Date'", data-title="'Date'", align='center') {{ value.Date | date: 'dd-MM-yyyy' }}
 
 						//div.pagination
 						//	ul
