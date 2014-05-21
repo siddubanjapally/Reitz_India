@@ -43,9 +43,17 @@
         obj.GasOperatingPoint = obj.GasOperatingPoints[obj.GasOperatingPoints.length - 1];
         projectservice.FanCoeffients = ReitzResources.multiunitsdata.query();
         projectservice.data = obj;
+        projectservice.data.countVariables = {
+          VpCount: 0,
+          DptCount: 0
+        };
         return $location.url("/edit/project");
       };
     });
   }).call(this);
 
 }).call(this);
+
+/*
+//@ sourceMappingURL=CustomerProjectsListController.map
+*/

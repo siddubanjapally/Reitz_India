@@ -8,6 +8,12 @@
     return $scope.gotoNewProject = function() {
       $rootScope.navEnable = false;
       projectservice.data = {
+        VpOrig: [],
+        dptOrig: [],
+        countVariables: {
+          VpCount: 0,
+          DptCount: 0
+        },
         Date: $filter("date")(Date.now(), 'yyyy-MM-dd'),
         Proposal_OrderNo: '',
         GasOperatingPoint: {
@@ -18,6 +24,16 @@
           Vp: '',
           Ro: ''
         },
+        GasOperatingPoints: [
+          {
+            T: '',
+            P1: 0,
+            F: 0,
+            Dpt: '',
+            Vp: '',
+            Ro: ''
+          }
+        ],
         FanAssemblies: {
           InletSoundSilencer: '0',
           EvaseOutlet_InletAreaRatio: '0',
@@ -30,8 +46,8 @@
         GasDatas: {
           BarometricPressure_Elevation: 0.0,
           GasDustload: 0,
-          VpUnit: '1',
-          DptUnit: '1',
+          VpUnit: '60',
+          DptUnit: '10',
           VpUnits: 'M3/S',
           DptUnits: 'PA'
         },
@@ -60,11 +76,11 @@
           HousingMetalPlateThickness: '0',
           DistanceBetweenStiffners: 0,
           BackgroundNoiseCorrection: '0'
-        },
-        GasOperatingPoints: []
+        }
       };
       projectservice.FanCoeffients = ReitzResources.multiunitsdata.query();
-      return $location.url('new/project');
+      $location.url('new/project');
+      return console.log(projectservice.data);
     };
   }).controller('navCtrl', function($scope, $location, userService) {
     $scope.user = userService.isActive;
@@ -99,3 +115,7 @@
   });
 
 }).call(this);
+
+/*
+//@ sourceMappingURL=CustomerHomeController.map
+*/
