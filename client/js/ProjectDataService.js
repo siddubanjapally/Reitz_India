@@ -117,13 +117,13 @@
         }
       ],
       FanAssemblies: {
-        InletSoundSilencer: 0,
-        EvaseOutlet_InletAreaRatio: 0,
-        InletBox: 0,
-        OutletSilencer: 0,
-        OutletOtherParts: 0,
-        InletOtherParts: 0,
-        Pressure_Difference: 0
+        InletSoundSilencer: '0',
+        EvaseOutlet_InletAreaRatio: '0',
+        InletBox: '0',
+        OutletSilencer: '0',
+        OutletOtherParts: '0',
+        InletOtherParts: '0',
+        Pressure_Difference: '0'
       },
       GasDatas: {
         BarometricPressure_Elevation: 0.0,
@@ -137,7 +137,7 @@
         DesignType: null,
         Width: '1',
         BackBlades: false,
-        StandardImpellerMaterial: false,
+        StandardImpellerMaterial: true,
         IECStandardMotor: false,
         NominalMotorSpeed: null,
         MotorSpeed: 0,
@@ -147,7 +147,7 @@
         IVCPosition: false,
         Drive: 'K',
         MaterialName: null,
-        MaterialDensity: '',
+        MaterialDensity: 0,
         direct: true
       },
       Noises: {

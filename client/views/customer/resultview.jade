@@ -15,12 +15,13 @@ div#page-wrapper
 					highchart(chart='{{renderChart.lineChart}}')
 
 				div.row
+
 					.col-sm-11
 						table(ng-hide='loading',ng-table='tableParams',class='table table-hover table-striped table-bordered',show-filter='true')
 							tbody(ng-repeat='rivent in $data')
 								tr
 									td
-										a(href='',ng-click='rivent.$hideRows = !rivent.$hideRows;getRow(rivent,$index)')
+										a(href='',ng-click='rivent.$hideRows = !rivent.$hideRows;getRow(rivent,$index,$element)')
 											span.glyphicon(ng-class=" { 'glyphicon-chevron-right': !rivent.$hideRows, 'glyphicon-chevron-down': rivent.$hideRows }")
 									td
 										a(href='',ng-click='getRievent(rivent,$index)')
@@ -35,7 +36,7 @@ div#page-wrapper
 									//td(sortable="'TipSpeed'",data-title="'TipSpeed'",filter="{'TipSpeed':'text'}") {{rivent.TipSpeed | number: 1}}
 									td(sortable="'FanSpeed'",data-title="'FanSpeed'",filter="{'FanSpeed':'text'}") {{rivent.FanSpeed | number: 1}}
 									td(data-title="'FanShaftPower'",filter="{'FanShaftPower':'text'}") {{rivent.FanShaftPower | number: 1}}
-								tr(ng-show='rivent.$hideRows')
+								tr(ng-if='rivent.$hideRows')
 									td(colspan='{{$columns.length}}')
 										tabset
 											tab(heading='Pressure')
@@ -96,8 +97,8 @@ div#page-wrapper
 													div.row
 														label.control-label.col-lg-7 Select Fan Speed:
 														div.col-lg-5
-															select.form-control(ng-model='data.FanSpeed',ng-change='editMode1 =true;backplateedit =true;shroudedit =true; bladesedit =true;changeDia(data,$index);')
-																option(selected='true') 490
+															select.form-control(ng-model='data.FanSpeed',ng-change='editMode1 =true;backplateedit =true;shroudedit =true; bladesedit =true;impelleredit=true;changeDia(data,$index);')
+																option 490
 																option 590
 																option 705
 																option 740
@@ -127,15 +128,15 @@ div#page-wrapper
 											tab(heading='Blade')
 												fieldset.col-sm-6.col-sm-offset-2(class="row")
 													div.row
-														label.control-label.col-sm-7 Number Of Blade Cuts:
+														label.control-label.col-sm-8 Number Of Blade Cuts:
 														div.col-sm-4
 															span {{rivent.NumberOfBladeCuts }}
 													div.row
-														label.control-label.col-sm-7 Number Of Blade Extensions:
+														label.control-label.col-sm-8 Number Of Blade Extensions:
 														div.col-sm-4
 															span {{rivent.NumberOfBladeExtensions }}
 													div.row
-														label.control-label.col-sm-7 NominalOuter Blade Diameter(mm):
+														label.control-label.col-sm-8 NominalOuter Blade Diameter(mm):
 														div.col-sm-4
 															span {{rivent.NominalOuterBladeDiameter | number:1}}
 											tab(heading='Noises',ng-show='postdata.MaterialDriveControls.NoiseDataRequired')
@@ -160,31 +161,31 @@ div#page-wrapper
 														div.row
 															label.control-label.col-sm-5 Back Plate:
 															div.col-sm-5
-																span {{rivent.BackPlate | number:1}}
+																span {{rivent.BackPlate }}
 																span   ({{rivent.StandardBackPlate}} mm)
 														div.row
 															label.control-label.col-sm-5 Shroud Plate:
 															div.col-sm-5
-																span {{rivent.ShroudPlate | number:1}}
+																span {{rivent.ShroudPlate }}
 																span   ({{rivent.StandardShroud}} mm)
 														div.row
 															label.control-label.col-sm-5 Blades:
 															div.col-sm-5
-																span {{rivent.Blades | number:1 }}
+																span {{rivent.Blades  }}
 																span   ({{rivent.StandardBlade}} mm)
 
 														div.row
 															label.control-label.col-sm-5 Hub:
 															div.col-sm-5
-																span {{rivent.Hub | number:1 }}
+																span {{rivent.Hub  }}
 														div.row
 															label.control-label.col-sm-5 Weight of Impeller:
 															div.col-sm-5
-																span {{rivent.Total | number:1}}
+																span {{rivent.Total }}
 														div.row
 															label.control-label.col-sm-5 GD^2:
 															div.col-sm-5
-																span {{rivent.oldGD2 | number:1}}
+																span {{rivent.oldGD2 }}
 														div.row
 															label.control-label.col-sm-5 Weight of inlet:
 															div.col-sm-5
@@ -192,24 +193,28 @@ div#page-wrapper
 														div.row
 															label.control-label.col-sm-5  Bearing Span:
 															div.col-sm-5
-																span {{rivent.bearingSpan | number:1}}
+																span {{rivent.bearingSpan }}
 														div.row
 															label.control-label.col-sm-5  Shaft Dia at Hub:
 															div.col-sm-5
-																span {{rivent.old_shafthub | number:1}}
+																span {{rivent.old_shafthub }}
 														div.row
 															label.control-label.col-sm-5  Shaft Dia at Brg:
 															div.col-sm-5
-																span {{rivent.old_shaftbrg | number:1}}
+																span {{rivent.old_shaftbrg }}
 														div.row
 															label.control-label.col-sm-5  Shaft at Wt.Forging:
 															div.col-sm-5
-																span {{rivent.old_wtForging | number:1}}
+																span {{rivent.old_wtForging }}
+														div.row(ng-hide='+postdata.MaterialDriveControls.Width == 2')
+															label.control-label.col-sm-5  Liners Required
+															div.col-sm-5
+																input(type='checkbox',ng-model='linersRequired')
 													fieldset.col-sm-5
 														div.row
 															label.control-label.col-sm-5 BackPlate(Thickness):
 															div.col-sm-5
-																select.form-control.col-sm-6(ng-model="seriesBackplate",ng-options="c.Backplate_mm for c in ImpScl",ng-change="selectedBackPlate(seriesBackplate,$index);backplateedit=true")
+																select.form-control.col-sm-6(ng-model="seriesBackplate",ng-options="c.Backplate_mm for c in ImpScl",ng-change="selectedBackPlate(seriesBackplate,$index);backplateedit=true;impelleredit=true")
 														div.row
 															label.control-label.col-sm-5  Shroud(Thickness):
 															div.col-sm-5
@@ -228,13 +233,13 @@ div#page-wrapper
 												div.row
 													fieldset.col-sm-5.col-sm-offset-1
 
-														div.row(ng-show='+postdata.MaterialDriveControls.Width == 2')
+														div.row(ng-show='linersRequired')
 
 															label.control-label.col-sm-3.col-sm-offset-4 Linear:
 
 															label.control-label.col-sm-3 Percentage:
 
-														div.row(ng-show='+postdata.MaterialDriveControls.Width == 2')
+														div.row(ng-show='linersRequired')
 															label.control-label.col-sm-4 Liner:
 															div.col-sm-3
 																select.form-control(ng-model="selectedLinear",ng-change='calculateLiner(selectedLinear,selectedPercentage,$index)')
@@ -258,58 +263,58 @@ div#page-wrapper
 															div.col-sm-1
 																span {{rivent.liner | number:1}}
 
-														div.row(ng-show='+postdata.MaterialDriveControls.Width == 2')
+														div.row(ng-show='linersRequired')
 
 															label.control-label.col-sm-3.col-sm-offset-4 OD^2:
 
 															label.control-label.col-sm-3  ID^2:
 
-														div.row(ng-show='+postdata.MaterialDriveControls.Width == 2')
+														div.row(ng-show='linersRequired')
 															label.control-label.col-sm-4 Wear Plate :
 															div.col-sm-3
 																input.form-control(type='text',ng-model="selectedID",ng-change='calculateWearPlate(selectedID,selectedOD,selectedLinear,$index)')
 															div.col-sm-3
 																input.form-control(type='text',ng-model="selectedOD",ng-change='calculateWearPlate(selectedID,selectedOD,selectedLinear,$index)')
 															div.col-sm-1
-																span {{rivent.wearPlate | number:1}}
+																span {{rivent.wearPlate}}
 
 													fieldset.col-sm-6
 														div.row(ng-show='backplateedit')
 															label.control-label.col-sm-5 New BackPlate:
 															div.col-sm-4
-																span {{rivent.backPlate1 | number:1}}
+																span {{rivent.backPlate1 }}
 														div.row(ng-show='shroudedit')
 															label.control-label.col-sm-5 New Shroud Plate:
 															div.col-sm-4
-																span {{rivent.shroudPlate1 | number:1}}
+																span {{rivent.shroudPlate1 }}
 														div.row(ng-show='bladesedit')
 															label.control-label.col-sm-5 New Blades :
 															div.col-sm-4
-																span  {{rivent.blades1 | number:1}}
-														div.row(ng-show='backplateedit')
+																span  {{rivent.blades1}}
+														div.row(ng-show='impelleredit')
 															label.control-label.col-sm-5 New Hub :
 															div.col-sm-4
-																span  {{rivent.hub1 | number:1}}
-														div.row(ng-show='backplateedit')
+																span  {{rivent.hub1 }}
+														div.row(ng-show='impelleredit')
 															label.control-label.col-sm-5 Weight of Impeller:
 															div.col-sm-4
-																span  {{rivent.Total1 | number:1}}
-														div.row(ng-show='backplateedit')
+																span  {{rivent.Total1 }}
+														div.row(ng-show='impelleredit')
 															label.control-label.col-sm-5 New GD^2 :
 															div.col-sm-4
-																span  {{rivent.newGD2 | number:1}}
+																span  {{rivent.newGD2 }}
 
-														div.row(ng-show='backplateedit')
+														div.row(ng-show='impelleredit')
 															label.control-label.col-sm-5  New Shaft Dia Hub:
 															div.col-sm-5
-																span {{rivent.shafthub | number:1}}
-														div.row(ng-show='backplateedit')
+																span {{rivent.shafthub }}
+														div.row(ng-show='impelleredit')
 															label.control-label.col-sm-5  New Shaft Dia Brg:
 															div.col-sm-5
-																span {{rivent.shaftbrg | number:1}}
-														div.row(ng-show='backplateedit')
+																span {{rivent.shaftbrg }}
+														div.row(ng-show='impelleredit')
 															label.control-label.col-sm-5  New Shaft Wt.Forging:
 															div.col-sm-5
-																span {{rivent.wtForging | number:1}}
+																span {{rivent.wtForging }}
 
 

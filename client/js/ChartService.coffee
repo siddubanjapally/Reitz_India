@@ -35,17 +35,19 @@
       {NominalSize:2240,inletboxsize:	'1210 x 3630 x 6',Width:1},{NominalSize:2240,inletboxsize:'1050 x 4200 x 6',Wdith:2},
       {NominalSize:2500,inletboxsize:'1360 x 4080 x 6',Width:1},{NominalSize:2500,inletboxsize:'1180 x 4720 x 6',Width:2}
     ]
-    totalWeight =[250,500,700,1000,1500,2000,2500,3500,5000,6500,7500,8500,10000,12500,15000,20000,25000]
+    totalWeight =[100,250,500,700,1000,1500,2000,2500,3500,5000,6500,7500,8500,10000,12500,15000,20000,25000]
+    totalWeight1 =[25,50,75,100,150,200,250,300,350,400,500,600,650,750]
     fanSpeeds = [490, 590, 705, 740, 880, 980, 1175, 1470, 1760, 2500, 3500]
     return {
-    chartData:chartData
-    loading:loading
-    postdata:postdata
-    editdata:editdata
-    inputdata:inputdata
-    serverData:serverData
-    fanSpeeds:fanSpeeds
-    InletBoxSizes:InletBoxSizes
-    totalWeight:totalWeight
-    ImpellerScantllingsValues:ImpellerScantllingsValues
+      chartData:chartData
+      loading:loading
+      postdata:postdata
+      editdata:editdata
+      inputdata:inputdata
+      serverData:serverData
+      fanSpeeds:fanSpeeds
+      InletBoxSizes:InletBoxSizes
+      totalWeight1:totalWeight1
+      totalWeight:totalWeight
+      ImpellerScantllingsValues:ImpellerScantllingsValues
     }

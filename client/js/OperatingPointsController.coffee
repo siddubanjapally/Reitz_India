@@ -4,6 +4,7 @@
     $location.path "#/login"  if localStorage.username is undefined
     $scope.data = projectservice.data
     $scope.opbtn = true
+<<<<<<< HEAD
     $scope.$watch "data.GasOperatingPoint.T", ((value) ->
       $scope.data.GasOperatingPoint.Vi = projectservice.density(value)
     ), true
@@ -11,6 +12,15 @@
       At: true
       Ro: false
     $scope.$watch "data.GasOperatingPoint.Atcheck", ((value) ->
+=======
+    $scope.$watch 'data.GasOperatingPoint.T',( (value)->
+      $scope.data.GasOperatingPoint.Vi = projectservice.density(value)
+    ), true
+
+    $scope.chb ={At:true,Ro:false}
+
+    $scope.$watch 'data.GasOperatingPoint.Atcheck',( (value)->
+>>>>>>> 5f2d75b56567dfec2019ed03bad383fb80bd518e
       if value
         console.log value
         $scope.chb.At = false
@@ -40,7 +50,19 @@
         $scope.lastOP = $scope.data.GasOperatingPoints.length + 1
         $scope.opbtn = true
 
+<<<<<<< HEAD
     $scope.showGoPoints = (op, index) ->
+=======
+    $scope.deleteGasOperatingPoint = ()->
+      _.remove $scope.data.GasOperatingPoints, (ob)->
+        ob is $scope.currentObj
+      $scope.data.GasOperatingPoint = $scope.data.GasOperatingPoints[$scope.data.GasOperatingPoints.length-1]
+      if $scope.data.GasOperatingPoints.length is 0
+        $scope.data.GasOperatingPoint = {T:'',F:0,P1:0,Dpt:'',Vp:'',Ro:''}
+      $scope.opbtn = true
+      return
+    $scope.showGoPoints = (op,index)->
+>>>>>>> 5f2d75b56567dfec2019ed03bad383fb80bd518e
       $scope.currentObj = op
       $scope.opbtn = false
       $scope.indexSet = index
@@ -65,7 +87,11 @@
       operate = $scope.data.GasOperatingPoint.Dpt
       Alt = $scope.data.GasOperatingPoint.Alt
       T = $scope.data.GasOperatingPoint.T
+<<<<<<< HEAD
       $scope.data.GasOperatingPoint.Ro = projectservice.calculateDensity(condition, operate, Alt, T)
+=======
+      $scope.data.GasOperatingPoint.Ro = projectservice.calculateDensity(condition,operate,Alt,T)
+>>>>>>> 5f2d75b56567dfec2019ed03bad383fb80bd518e
 
     $scope.normaldesityValidate = ->
       value = undefined

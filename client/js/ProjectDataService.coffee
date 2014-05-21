@@ -73,13 +73,13 @@
         Ro:''
       GasOperatingPoints : [ {T: '',P1:0,F:0,Dpt:'',Vp:'',Ro:'',Vi:'',At:''}]
       FanAssemblies:
-        InletSoundSilencer: 0
-        EvaseOutlet_InletAreaRatio: 0
-        InletBox: 0
-        OutletSilencer: 0
-        OutletOtherParts: 0
-        InletOtherParts:0
-        Pressure_Difference:0
+        InletSoundSilencer: '0'
+        EvaseOutlet_InletAreaRatio: '0'
+        InletBox: '0'
+        OutletSilencer: '0'
+        OutletOtherParts: '0'
+        InletOtherParts:'0'
+        Pressure_Difference:'0'
       GasDatas:
         BarometricPressure_Elevation: 0.0
         GasDustload: 0
@@ -91,7 +91,7 @@
         DesignType: null
         Width: '1'
         BackBlades:false
-        StandardImpellerMaterial: false
+        StandardImpellerMaterial: true
         IECStandardMotor:false
         NominalMotorSpeed:null
         MotorSpeed:0
@@ -101,10 +101,10 @@
         IVCPosition:false
         Drive:'K'
         MaterialName: null
-        MaterialDensity:''
+        MaterialDensity:0
         direct:true
       Noises:
-        Design: 0
+        Design:0
         FanLocation: 1
         HousingMaterial:0
         RoomAbsorptionArea: '0'
