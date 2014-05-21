@@ -131,10 +131,51 @@ a{
     text-align: center;
     margin-left: 12px;
 }
+#operatingPoint label{
+    margin-bottom: 17px;
+}
 .navbar-default {
     height: 85px;
     background-color: #ffffff !important;
 }
 .dropdown-menu{
     min-width:105px !important;
+}
+
+/*div.col-lg-2.horizontal-slide {*/
+    /*margin: 0;*/
+    /*padding: 0;*/
+    /*width: 100%;*/
+    /*white-space: nowrap;*/
+    /*overflow-x: auto;*/
+/*}*/
+
+/*ul.horizontal-slide li[class*="span"] {*/
+    /*display: inline-block;*/
+    /*float: none;*/
+/*}*/
+
+/*ul.horizontal-slide li[class*="span"]:first-child {*/
+    /*margin-left: 0;*/
+/*}*/
+/*#table{*/
+    /*height: 500px !important;*/
+    /*overflow: scroll;*/
+/*}*/
+div.span3 {
+    /*height: 500px !important;*/
+    max-width: 650px !important;
+    /*overflow:scroll;*/
+    overflow-x: auto;
+    /*overflow-y: hidden;*/
+    white-space : nowrap;
+}
+div.ops{
+    width:130px;
+    float: none;
+    display: inline-block;
+}
+div.setposition{
+    float: left;
+    display: inline-block;
 }
