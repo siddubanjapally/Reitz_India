@@ -1,4 +1,7 @@
 node_modules/
+client/*.js
+client/*.map
+client/views/customer/*.html
 .idea/
 .tmp/
 *~
