@@ -600,13 +600,7 @@
         $scope: $scope
       });
     };
-<<<<<<< HEAD
-    console.log(JSON.stringify(projectservice.createJson($scope.state, $scope.postdata)), $scope.postdata);
     return ReitzResources.fanresultpost.create(JSON.stringify(projectservice.createJson($scope.state, $scope.postdata))).$promise.then(function(result) {
-=======
-    console.log(JSON.stringify(projectservice.createJson($scope.postdata)));
-    return ReitzResources.fanresultpost.create(JSON.stringify(projectservice.createJson($scope.postdata))).$promise.then(function(result) {
->>>>>>> 5f2d75b56567dfec2019ed03bad383fb80bd518e
       if (!_.isEmpty(result)) {
         result = _.sortBy(result, 'Efficiency').reverse();
         result = _.map(result, function(item) {

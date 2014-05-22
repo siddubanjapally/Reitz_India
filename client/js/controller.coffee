@@ -348,14 +348,11 @@
 
     $scope.saveProjectInfo = () ->
       projectInfo = projectservice.data
-<<<<<<< HEAD
       console.log projectInfo
 #      if !projectservice.data.MaterialDriveControls.NoiseDataRequired
 #        projectInfo.Noises = {}
 #        console.log projectInfo
 #      console.log projectInfo
-=======
->>>>>>> 5f2d75b56567dfec2019ed03bad383fb80bd518e
       ReitzResources.fanproject.create(projectInfo).$promise.then (result)->
         console.log 'inserted successfully', result
 
@@ -470,14 +467,11 @@
         ),
         $scope: $scope
       })
-<<<<<<< HEAD
 
-    console.log JSON.stringify(projectservice.createJson($scope.state,$scope.postdata)), $scope.postdata
+#    console.log JSON.stringify(projectservice.createJson($scope.state,$scope.postdata)), $scope.postdata
+#    ReitzResources.fanresultpost.create(JSON.stringify(projectservice.createJson($scope.state, $scope.postdata))).$promise.then (result)->
+#    console.log JSON.stringify(projectservice.createJson($scope.postdata))
     ReitzResources.fanresultpost.create(JSON.stringify(projectservice.createJson($scope.state, $scope.postdata))).$promise.then (result)->
-=======
-    console.log JSON.stringify(projectservice.createJson($scope.postdata))
-    ReitzResources.fanresultpost.create(JSON.stringify(projectservice.createJson($scope.postdata))).$promise.then (result)->
->>>>>>> 5f2d75b56567dfec2019ed03bad383fb80bd518e
       if !_.isEmpty(result)
         result = _.sortBy(result,'Efficiency').reverse()
         result = _.map result,(item)->

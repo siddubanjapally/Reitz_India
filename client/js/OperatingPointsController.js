@@ -15,7 +15,11 @@
         At: true,
         Ro: false
       };
-      $scope.$watch("data.GasOperatingPoint.Atcheck", (function(value) {
+      $scope.chb = {
+        At: true,
+        Ro: false
+      };
+      $scope.$watch('data.GasOperatingPoint.Atcheck', (function(value) {
         if (value) {
           console.log(value);
           $scope.chb.At = false;
@@ -83,6 +87,7 @@
         operate = $scope.data.GasOperatingPoint.Dpt;
         Alt = $scope.data.GasOperatingPoint.Alt;
         T = $scope.data.GasOperatingPoint.T;
+        $scope.data.GasOperatingPoint.Ro = projectservice.calculateDensity(condition, operate, Alt, T);
         return $scope.data.GasOperatingPoint.Ro = projectservice.calculateDensity(condition, operate, Alt, T);
       };
       $scope.normaldesityValidate = function() {
