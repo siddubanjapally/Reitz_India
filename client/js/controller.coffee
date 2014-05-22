@@ -3,22 +3,17 @@
     $scope.state = $routeParams['state']
     if localStorage.username is undefined
       $location.path '#/login'
-    #$scope.ImpScl = chartService.ImpellerScantllingsValues
     $scope.ImpScl = ReitzResources.ImpellerScantllingValues.query()
-#    $scope.inletBoxSizes =  chartService.InletBoxSizes
     ReitzResources.getInletBoxWeitghts (weights)->
       $scope.inletBoxSizes = weights
-
     projectservice.checkingOperatingPont(projectservice.data)
     $scope.postdata = projectservice.data
     $scope.result = []
     $scope.loading = true
     checkDia= (newdia,olddia)->
       if newdia then newdia else olddia
-
 #findshaftdia is added to find shaft dia at hub using object of fan and weight by Naitik
     findShaftDia = (result,w)->
-#      console.log result
       if result[0].Rpm is 2500 || result[0].Rpm is 3500
         weight = getWeight1(w)
       else

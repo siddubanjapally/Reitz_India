@@ -1,12 +1,10 @@
 (angular.module 'reitz')
 .controller 'ReportController',($scope,$modalInstance,$window,chartService,projectservice)->
     data = chartService.inputdata
-#    console.log data
-#    console.log chartService.reportdata
     gsop = _.map chartService.inputdata.GasOperatingPoints,(item)->
       {"T":item.T,"P1":item.P,"Vi":item.Vi,"Vp":item.Vp,"Dpt":item.Dpt,"Ro":item.Ro}
-
-    fanProject = {"Proposal_OrderNo":data.Proposal_OrderNo,"GasDatas":[{"VpUnit":data.GasDatas.VpUnit,"DptUnit":data.GasDatas.DptUnit,"GasOperatingPoints":gsop}],"MaterialDriveControls":[{"Width":data.MaterialDriveControls.Width,"Control":data.MaterialDriveControls.Control}],"Date":data.Date,"Engineer":data.Engineer,"ProjectName":data.ProjectName,"fanType":data.MaterialDriveControls.Width,"fanImage":data.MaterialDriveControls.FanType
+    #"CustomerName":data.CustomerName,
+    fanProject = {"Proposal_OrderNo":data.Proposal_OrderNo, "GasDatas":[{"VpUnit":data.GasDatas.VpUnit,"DptUnit":data.GasDatas.DptUnit,"GasOperatingPoints":gsop}],"MaterialDriveControls":[{"Width":data.MaterialDriveControls.Width,"Control":data.MaterialDriveControls.Control}],"Date":data.Date,"Engineer":data.Engineer,"ProjectName":data.ProjectName,"fanType":data.MaterialDriveControls.Width,"fanImage":data.MaterialDriveControls.FanType
     ,"InletSoundSilencer":data.FanAssemblies.InletSoundSilencer,'EvaseOutlet_InletAreaRatio':data.FanAssemblies.EvaseOutlet_InletAreaRatio
     ,'InletBox':data.FanAssemblies.InletBox,'OutletSilencer':data.FanAssemblies.OutletSilencer,'OutletOtherParts':data.FanAssemblies.OutletOtherParts,'InletOtherParts':data.FanAssemblies.InletOtherParts
     ,'PressureDifference':data.FanAssemblies.PressureDifference,'MechanicalDesignTemperature':data.MaterialDriveControls.MechanicalDesignTemperature
