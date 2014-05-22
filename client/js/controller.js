@@ -528,68 +528,51 @@
       }, {
         counts: [],
         getData: (function($defer, params) {
-          var fanData, fanrangeData, fanspeed, filteredData, nomenclature, nomenclatureData, nomenclatureRange, orderedData;
-          fanspeed = params.filter().FanSpeed;
-          nomenclature = params.filter().Nomenclature;
-          filteredData = params.filter() ? $filter('filter')($scope.result, _.omit(params.filter(), ['FanSpeed', 'Nomenclature'])) : $scope.result;
-          fanrangeData = function(filteredData, fanspeed) {
-            var f;
-            f = fanspeed.split(',');
-            if (f[1] !== void 0) {
-              return _.filter(filteredData, function(fan) {
-                var _ref;
-                if ((+f[0] <= (_ref = +fan.FanSpeed) && _ref <= +f[1])) {
-                  return fan;
-                }
-              });
-            } else {
-              return $filter('filter')(filteredData, {
-                FanSpeed: f[0]
-              });
-            }
-          };
-          nomenclatureRange = function(fanData, nomenclature) {
-            var a, n;
-            if (nomenclature.search('-') !== -1) {
-              n = nomenclature.split('-');
+          var filteredData, filterobj, orderedData, rangekeys, tabledataRange;
+          filteredData = params.filter() ? $filter('filter')($scope.result, _.omit(params.filter(), ['FanSpeed', 'Nomenclature', 'NominalSize', 'Efficiency', 'OuterBladeDiameter', 'FanShaftPower'])) : $scope.result;
+          filterobj = params.filter();
+          rangekeys = _.keys(filterobj);
+          filterobj = _.omit(filterobj, function(value) {
+            return value === "" || value === void 0;
+          });
+          rangekeys = _.keys(filterobj);
+          tabledataRange = function(fanData, filtervalue, filterkey) {
+            var a, n, obj;
+            if (filtervalue.search('-') !== -1) {
+              n = filtervalue.split('-');
               if (n[1] !== void 0) {
                 return _.filter(fanData, function(fan) {
                   var _ref;
-                  if ((+n[0] <= (_ref = +fan.Nomenclature) && _ref <= +n[1])) {
+                  if ((+n[0] <= (_ref = +fan[filterkey]) && _ref <= +n[1])) {
                     return fan;
                   }
                 });
               }
-            } else if (nomenclature.search(',') !== -1) {
-              n = nomenclature.split(',');
+            } else if (filtervalue.search(',') !== -1) {
+              n = filtervalue.split(',');
               if (n[1] !== void 0) {
-                n = nomenclature.split(',');
+                n = filtervalue.split(',');
                 a = [];
                 _.map(_.range(0, n.length), function(i) {
-                  return a = _.union(a, $filter('filter')(fanData, {
-                    Nomenclature: n[i]
-                  }));
+                  var obj;
+                  obj = {};
+                  obj[filterkey] = n[i];
+                  return a = _.union(a, $filter('filter')(fanData, obj));
                 });
                 return a;
               }
             } else {
-              return $filter('filter')(filteredData, {
-                Nomenclature: nomenclature
-              });
+              obj = {};
+              obj[filterkey] = filtervalue;
+              return $filter('filter')(filteredData, obj);
             }
           };
-          if (fanspeed && (nomenclature === "" || nomenclature === void 0)) {
-            fanData = fanrangeData(filteredData, fanspeed);
-            orderedData = params.sorting() ? $filter('orderBy')(fanData, params.orderBy()) : $scope.result;
-            return $defer.resolve(orderedData);
-          } else if (nomenclature && (fanspeed === void 0 || fanspeed === "")) {
-            nomenclatureData = nomenclatureRange(filteredData, nomenclature);
-            orderedData = params.sorting() ? $filter('orderBy')(nomenclatureData, params.orderBy()) : $scope.result;
-            return $defer.resolve(orderedData);
-          } else if (nomenclature && fanspeed) {
-            nomenclatureData = nomenclatureRange(filteredData, nomenclature);
-            fanData = fanrangeData(nomenclatureData, fanspeed);
-            orderedData = params.sorting() ? $filter('orderBy')(fanData, params.orderBy()) : $scope.result;
+          if (rangekeys.length) {
+            _.map(_.range(rangekeys.length), function(i) {
+              filteredData = tabledataRange(filteredData, filterobj[rangekeys[i]], rangekeys[i]);
+              return console.log(filteredData);
+            });
+            orderedData = params.sorting() ? $filter('orderBy')(filteredData, params.orderBy()) : $scope.result;
             return $defer.resolve(orderedData);
           } else {
             orderedData = params.sorting() ? $filter('orderBy')(filteredData, params.orderBy()) : $scope.result;
@@ -599,7 +582,6 @@
         $scope: $scope
       });
     };
-    console.log(JSON.stringify(projectservice.createJson($scope.postdata)));
     return ReitzResources.fanresultpost.create(JSON.stringify(projectservice.createJson($scope.postdata))).$promise.then(function(result) {
       if (!_.isEmpty(result)) {
         result = _.sortBy(result, 'Efficiency').reverse();
@@ -608,7 +590,9 @@
           item.ShroudPlate = Math.round(item.ShroudPlate);
           item.Blades = Math.round(item.Blades);
           item.Hub = Math.round(item.Hub);
-          item.FanSpeed = item.FanSpeed + 1.8;
+          item.FanSpeed = Math.round((item.FanSpeed + 1.8) * 10) / 10;
+          item.Efficiency = Math.round(item.Efficiency * 10) / 10;
+          item.FanShaftPower = Math.round(item.FanShaftPower * 10) / 10;
           return _.assign(item, {
             backPlate1: 0,
             shroudPlate1: 0,

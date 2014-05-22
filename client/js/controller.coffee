@@ -390,8 +390,6 @@
 
     tableData =()->
       $scope.tableParams = new ngTableParams({
-#        page:1,
-#        count:15,
         filter: {
           Series: ''
         },
@@ -400,69 +398,52 @@
         }
       },{
         counts:[],
-#        total:0,
         getData :( ($defer,params)->
-          fanspeed = params.filter().FanSpeed
-          nomenclature =params.filter().Nomenclature
-          filteredData = if params.filter() then $filter('filter')($scope.result, _.omit(params.filter(),['FanSpeed','Nomenclature'])) else $scope.result
-          fanrangeData = (filteredData,fanspeed)->
-            f=fanspeed.split(',')
-            if f[1] isnt undefined
-              _.filter(filteredData,(fan)->
-                if +f[0]<=+fan.FanSpeed<=+f[1]
-                  return fan
-              )
-            else
-              $filter('filter')(filteredData,{FanSpeed:f[0]})
-          nomenclatureRange =(fanData,nomenclature)->
-            if nomenclature.search('-') isnt -1
-              n=nomenclature.split('-')
+          filteredData = if params.filter() then $filter('filter')($scope.result, _.omit(params.filter(),['FanSpeed','Nomenclature','NominalSize','Efficiency','OuterBladeDiameter','FanShaftPower'])) else $scope.result
+          filterobj = params.filter()
+          rangekeys = _.keys filterobj
+          filterobj = _.omit filterobj,(value)->
+            return value is "" or value is undefined
+#          _.map _.range(rangekeys.length),(i)->
+#            if filterobj[rangekeys[i]] is "" or filterobj[rangekeys[i]] is undefined
+#              delete filterobj[rangekeys[i]]
+          rangekeys = _.keys filterobj
+          tabledataRange =(fanData,filtervalue,filterkey)->
+            if filtervalue.search('-') isnt -1
+              n=filtervalue.split('-')
               if n[1] isnt undefined
                 _.filter(fanData,(fan)->
-                  if +n[0]<=+fan.Nomenclature<=+n[1]
+                  if +n[0]<=+fan[filterkey]<=+n[1]
                     return fan
                 )
-            else if nomenclature.search(',') isnt -1
-              n=nomenclature.split(',')
+            else if filtervalue.search(',') isnt -1
+              n=filtervalue.split(',')
               if n[1] isnt undefined
-                n=nomenclature.split(',')
+                n=filtervalue.split(',')
                 a=[]
                 _.map(_.range(0,n.length),(i)->
-                  a=_.union a,$filter('filter')(fanData,{Nomenclature:n[i]})
+                  obj = {}
+                  obj[filterkey]=n[i]
+                  a=_.union a,$filter('filter')(fanData,obj)
                 )
                 a
             else
-              $filter('filter')(filteredData,{Nomenclature:nomenclature})
-
-          if fanspeed and (nomenclature is "" or nomenclature is undefined )
-            fanData=fanrangeData(filteredData,fanspeed)
-            orderedData = if params.sorting() then $filter('orderBy')(fanData,params.orderBy()) else $scope.result
-#            params.total(orderedData.length)
-            $defer.resolve(orderedData)
-
-          else if nomenclature and (fanspeed is undefined or fanspeed is "")
-            nomenclatureData =nomenclatureRange(filteredData,nomenclature)
-            orderedData = if params.sorting() then $filter('orderBy')(nomenclatureData,params.orderBy()) else $scope.result
-#            params.total(orderedData.length)
-            $defer.resolve(orderedData)
-
-          else if nomenclature and fanspeed
-            nomenclatureData =nomenclatureRange(filteredData,nomenclature)
-            fanData=fanrangeData(nomenclatureData,fanspeed)
-
-            orderedData = if params.sorting() then $filter('orderBy')(fanData,params.orderBy()) else $scope.result
-#            params.total(orderedData.length)
+              obj = {}
+              obj[filterkey]=filtervalue
+              $filter('filter')(filteredData,obj)
+          if rangekeys.length
+            _.map _.range(rangekeys.length),(i)->
+                filteredData = tabledataRange(filteredData,filterobj[rangekeys[i]],rangekeys[i])
+                console.log filteredData
+            orderedData = if params.sorting() then $filter('orderBy')(filteredData,params.orderBy()) else $scope.result
             $defer.resolve(orderedData)
           else
             orderedData = if params.sorting() then $filter('orderBy')(filteredData,params.orderBy()) else $scope.result
-#            params.total(orderedData.length)
             $defer.resolve(orderedData)
-
-
         ),
         $scope: $scope
       })
-    console.log JSON.stringify(projectservice.createJson($scope.postdata))
+#    console.log JSON.stringify(projectservice.createJson($scope.postdata))
     ReitzResources.fanresultpost.create(JSON.stringify(projectservice.createJson($scope.postdata))).$promise.then (result)->
       if !_.isEmpty(result)
         result = _.sortBy(result,'Efficiency').reverse()
@@ -471,9 +452,10 @@
           item.ShroudPlate = Math.round item.ShroudPlate
           item.Blades = Math.round item.Blades
           item.Hub = Math.round item.Hub
-          item.FanSpeed = item.FanSpeed + 1.8
+          item.FanSpeed = Math.round((item.FanSpeed + 1.8)*10)/10
+          item.Efficiency = Math.round(item.Efficiency *10)/10
+          item.FanShaftPower = Math.round(item.FanShaftPower *10)/10
           _.assign item,{backPlate1 : 0,shroudPlate1 : 0,blades1 : 0,hub1 : 0,OuterBladeDiameter1:0 ,inletBoxSize1:0,inletBoxSize2:0 ,oldGD2: 0, newGD2:0,A:0,B:0,bearingSpan:0,liner: 0,wearPlate :0,shafthub:0,shaftbrg:0,Total1:0, old_shafthub:0, old_shaftbrg:0,old_wtForging:0,wtForging:0}
-#          item = impellerCalculations(item)
         $scope.result = result
         tableData()
         generateChart(result)

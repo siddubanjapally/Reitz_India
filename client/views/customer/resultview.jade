@@ -31,11 +31,11 @@ div#page-wrapper
 									td(sortable="'Nomenclature'",data-title="'Nomenclature'",filter="{'Nomenclature':'text'}") {{rivent.Nomenclature}}
 									td(sortable="'NominalSize'",data-title="'NominalSize'",filter="{'NominalSize':'text'}") {{rivent.NominalSize}}
 									td(data-title="'OperatingPoint'",filter="{'OperatingPoint':'text'}") {{rivent.OperatingPoint}}
-									td(sortable="'Efficiency'",data-title="'Efficiency'",filter="{'Efficiency':'text'}") {{rivent.Efficiency | number: 1}}
+									td(sortable="'Efficiency'",data-title="'Efficiency'",filter="{'Efficiency':'text'}") {{rivent.Efficiency}}
 									td(sortable="'OuterBladeDiameter'",data-title="'OuterDiameter'",filter="{'OuterBladeDiameter':'text'}") {{rivent.OuterBladeDiameter}}
 									//td(sortable="'TipSpeed'",data-title="'TipSpeed'",filter="{'TipSpeed':'text'}") {{rivent.TipSpeed | number: 1}}
-									td(sortable="'FanSpeed'",data-title="'FanSpeed'",filter="{'FanSpeed':'text'}") {{rivent.FanSpeed | number: 1}}
-									td(data-title="'FanShaftPower'",filter="{'FanShaftPower':'text'}") {{rivent.FanShaftPower | number: 1}}
+									td(sortable="'FanSpeed'",data-title="'FanSpeed'",filter="{'FanSpeed':'text'}") {{rivent.FanSpeed}}
+									td(data-title="'FanShaftPower'",filter="{'FanShaftPower':'text'}") {{rivent.FanShaftPower }}
 								tr(ng-if='rivent.$hideRows')
 									td(colspan='{{$columns.length}}')
 										tabset
