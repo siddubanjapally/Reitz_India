@@ -106,7 +106,9 @@ div.trv-document-map.k-widget {
 
 }
 .trv-report-page{
-    width:638px !important;
+    width:632px !important;
+    border-right: 1px solid #000000 !important;
+
 }
 .s6-153355-704f{
     border-right:none !important;
