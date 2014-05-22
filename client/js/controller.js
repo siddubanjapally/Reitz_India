@@ -202,7 +202,7 @@
         var Weight_factor;
         $scope.fanseries = result;
         Weight_factor = $scope.fanseries.ImpellerScantllingsFactors[0].WeightFactor;
-        data.oldGD2 = Math.round(4.2 * (data.BackPlate + data.ShroudPlate + data.Blades) * Math.pow((data.OuterBladeDiameter / 1000) * Weight_factor, 2));
+        data.oldGD2 = Math.round(4.2 * (data.BackPlate + data.ShroudPlate + data.Blades + data.Hub) * Math.pow((data.OuterBladeDiameter / 1000) * Weight_factor, 2));
         $scope.seriesBackplate = $scope.seriesShroudplate = $scope.seriesBlade = _.find($scope.fanseries.ImpellerScantllings, {
           Size: data.NominalSize
         });
@@ -450,7 +450,6 @@
     $scope.saveProjectInfo = function() {
       var projectInfo;
       projectInfo = projectservice.data;
-      console.log(projectInfo);
       return ReitzResources.fanproject.create(projectInfo).$promise.then(function(result) {
         return console.log('inserted successfully', result);
       });

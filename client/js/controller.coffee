@@ -155,7 +155,7 @@
       ReitzResources.fanseries.get({id:Math.floor(data.Series)}).$promise.then (result)->
         $scope.fanseries = result
         Weight_factor = $scope.fanseries.ImpellerScantllingsFactors[0].WeightFactor
-        data.oldGD2 =  Math.round(4.2*(data.BackPlate + data.ShroudPlate  + data.Blades ) * Math.pow(((data.OuterBladeDiameter/1000)* Weight_factor),2))
+        data.oldGD2 =  Math.round(4.2*(data.BackPlate + data.ShroudPlate  + data.Blades + data.Hub) * Math.pow(((data.OuterBladeDiameter/1000)* Weight_factor),2))
         $scope.seriesBackplate = $scope.seriesShroudplate = $scope.seriesBlade   = _.find $scope.fanseries.ImpellerScantllings,{Size:data.NominalSize}
         $scope.single_double_width = _.find $scope.fanseries.CentrifugalFanSeries,{NominalSize:data.NominalSize}
 
@@ -343,11 +343,6 @@
 
     $scope.saveProjectInfo = () ->
       projectInfo = projectservice.data
-      console.log projectInfo
-#      if !projectservice.data.MaterialDriveControls.NoiseDataRequired
-#        projectInfo.Noises = {}
-#        console.log projectInfo
-#      console.log projectInfo
       ReitzResources.fanproject.create(projectInfo).$promise.then (result)->
         console.log 'inserted successfully', result
 
