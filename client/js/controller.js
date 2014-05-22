@@ -450,6 +450,7 @@
     $scope.saveProjectInfo = function() {
       var projectInfo;
       projectInfo = projectservice.data;
+      console.log(projectInfo);
       return ReitzResources.fanproject.create(projectInfo).$promise.then(function(result) {
         return console.log('inserted successfully', result);
       });
@@ -582,7 +583,7 @@
         $scope: $scope
       });
     };
-    return ReitzResources.fanresultpost.create(JSON.stringify(projectservice.createJson($scope.postdata))).$promise.then(function(result) {
+    return ReitzResources.fanresultpost.create(JSON.stringify(projectservice.createJson($scope.state, $scope.postdata))).$promise.then(function(result) {
       if (!_.isEmpty(result)) {
         result = _.sortBy(result, 'Efficiency').reverse();
         result = _.map(result, function(item) {

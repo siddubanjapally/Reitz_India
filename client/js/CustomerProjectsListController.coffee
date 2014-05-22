@@ -1,4 +1,3 @@
-
 (->
   app = undefined
   app = angular.module("reitz")
@@ -37,9 +36,14 @@
       obj.GasOperatingPoint = obj.GasOperatingPoints[obj.GasOperatingPoints.length-1]
       projectservice.FanCoeffients = ReitzResources.multiunitsdata.query()
       projectservice.data = obj
+      projectservice.data.countVariables = {
+        VpCount:0
+        DptCount:0
+      }
+#      projectservice.data.VpOrig =[]
+#      projectservice.data.dptOrig =[]
+
       $location.url "/edit/project"
-
-
 
 #    $scope.range = ->
 #      i = undefined

@@ -6,6 +6,11 @@
     $scope.gotoNewProject = ->
       $rootScope.navEnable =false
       projectservice.data = {
+        VpOrig:[]
+        dptOrig:[]
+        countVariables :
+          VpCount:0
+          DptCount:0
         Date: $filter("date")(Date.now(), 'yyyy-MM-dd')
         Proposal_OrderNo:''
         GasOperatingPoint :
@@ -15,6 +20,7 @@
           Dpt:''
           Vp:''
           Ro:''
+        GasOperatingPoints : [ {T: '',P1:0,F:0,Dpt:'',Vp:'',Ro:''}]
         FanAssemblies:
           InletSoundSilencer: '0'
           EvaseOutlet_InletAreaRatio: '0'
@@ -26,8 +32,8 @@
         GasDatas:
           BarometricPressure_Elevation: 0.0
           GasDustload: 0
-          VpUnit: '1'
-          DptUnit: '1'
+          VpUnit: '60'
+          DptUnit: '10'
           VpUnits : 'M3/S'
           DptUnits: 'PA'
         MaterialDriveControls:
@@ -54,13 +60,11 @@
           HousingMetalPlateThickness: '0'
           DistanceBetweenStiffners: 0
           BackgroundNoiseCorrection:'0'
-        GasOperatingPoints:[]
+#        GasOperatingPoints:[]
       }
       projectservice.FanCoeffients = ReitzResources.multiunitsdata.query()
       $location.url 'new/project'
-#    $scope.gotEditProject = ->
-#      $location.url '/projectslist'
-
+      console.log projectservice.data
 .controller 'navCtrl', ($scope,$location,userService)->
     $scope.user = userService.isActive
     if userService.isActive.role is 'admin'

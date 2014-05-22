@@ -23,3 +23,7 @@
   });
 
 }).call(this);
+
+/*
+//@ sourceMappingURL=AuthenticationService.map
+*/

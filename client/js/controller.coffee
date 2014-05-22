@@ -348,6 +348,11 @@
 
     $scope.saveProjectInfo = () ->
       projectInfo = projectservice.data
+      console.log projectInfo
+#      if !projectservice.data.MaterialDriveControls.NoiseDataRequired
+#        projectInfo.Noises = {}
+#        console.log projectInfo
+#      console.log projectInfo
       ReitzResources.fanproject.create(projectInfo).$promise.then (result)->
         console.log 'inserted successfully', result
 
@@ -404,9 +409,6 @@
           rangekeys = _.keys filterobj
           filterobj = _.omit filterobj,(value)->
             return value is "" or value is undefined
-#          _.map _.range(rangekeys.length),(i)->
-#            if filterobj[rangekeys[i]] is "" or filterobj[rangekeys[i]] is undefined
-#              delete filterobj[rangekeys[i]]
           rangekeys = _.keys filterobj
           tabledataRange =(fanData,filtervalue,filterkey)->
             if filtervalue.search('-') isnt -1
@@ -443,8 +445,7 @@
         ),
         $scope: $scope
       })
-#    console.log JSON.stringify(projectservice.createJson($scope.postdata))
-    ReitzResources.fanresultpost.create(JSON.stringify(projectservice.createJson($scope.postdata))).$promise.then (result)->
+    ReitzResources.fanresultpost.create(JSON.stringify(projectservice.createJson($scope.state, $scope.postdata))).$promise.then (result)->
       if !_.isEmpty(result)
         result = _.sortBy(result,'Efficiency').reverse()
         result = _.map result,(item)->

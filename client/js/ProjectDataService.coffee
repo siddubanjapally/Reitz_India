@@ -24,6 +24,32 @@
       staticPressure = parseFloat(Density(condition,operate))/ 9.81
       baroPres = 760*(Math.E^(-0.000125*parseInt(Alt)))
       (1.293*(273/(273+parseInt(T)))*(baroPres-(0.0737*staticPressure))/760).toFixed(5)
+
+    convertVp = (vp, units)->
+      console.log 'from convertVp function', vp, units
+      if units is 'M3/S' or units is 'NM3/S'
+        return vp
+      else if units is 'M3/M' or units is 'NM3/M'
+        console.log vp/60
+        return vp/60
+      else if units is 'M3/H' or units is 'NM3/H'
+        return vp/3600
+
+    convertDpt = (dpt, units)->
+      console.log 'from convertDpt', dpt, units
+      if units is 'PA'
+        console.log dpt
+        return dpt
+      else if units is 'MMwg'
+        console.log dpt/9.81
+        return dpt/9.81
+      else if units is 'Mbar'
+        console.log dpt/100
+        return dpt/100
+      else if units is 'Dapa'
+        console.log dpt/10
+        return dpt/10
+
     postdata =  {}
     FanCoeffients = []
     editdata =  null
@@ -32,6 +58,11 @@
       ()->
          ++id
     data = {
+      VpOrig:[]
+      dptOrig:[]
+      countVariables :
+        VpCount:0
+        DptCount:0
       Proposal_OrderNo:''
       GasOperatingPoint :
         T: ''
@@ -40,6 +71,7 @@
         Dpt:''
         Vp:''
         Ro:''
+      GasOperatingPoints : [ {T: '',P1:0,F:0,Dpt:'',Vp:'',Ro:'',Vi:'',At:''}]
       FanAssemblies:
         InletSoundSilencer: '0'
         EvaseOutlet_InletAreaRatio: '0'
@@ -79,7 +111,7 @@
         HousingMetalPlateThickness: '0'
         DistanceBetweenStiffners: 0
         BackgroundNoiseCorrection:'0'
-      GasOperatingPoints:[]
+#      GasOperatingPoints:[]
     }
     entitykeyNew = (name)->
       $id: id().toString()
@@ -144,9 +176,15 @@
       data = data
     genearateJson =(data)->
       console.log data
-    createJson  = (data) ->
+    createJson  = (state, data) ->
+      console.log data
+#      if data.GasDatas.VpUnit is 1 or data.GasDatas.VpUnit is 60 or data.GasDatas.VpUnit is 3600
+#        data.GasDatas.VpUnit = 1
+#      if data.GasDatas.DptUnit is 0.101 or data.GasDatas.DptUnit is 0.01 or data.GasDatas.DptUnit is 1 or data.GasDatas.DptUnit is 10
+#        data.GasDatas.DptUnit = 1
       #data = checkingOperatingPont(data)
-      if $rootScope.flag is 0
+      console.log state, data
+      if state is 'new'
         id = genrateId()
         obj =
           $id: id().toString()
@@ -270,17 +308,21 @@
                 Value: guid()
               ]
         _.map _.range(data.GasOperatingPoints.length),(i) ->
+          console.log convertDpt(data.GasOperatingPoints[i].Dpt, data.GasDatas.DptUnits)
+          console.log convertVp(data.GasOperatingPoints[i].Vp, data.GasDatas.VpUnits)
           obj.GasDatas[0].GasOperatingPoints.push
             $id: id().toString()
             T: +data.GasOperatingPoints[i].T
-            Dpt: +data.GasOperatingPoints[i].Dpt
+#            Dpt: +data.GasOperatingPoints[i].Dpt
+            Dpt: +convertDpt(data.GasOperatingPoints[i].Dpt, data.GasDatas.DptUnits)
             P1: +data.GasOperatingPoints[i].P1
             F: +data.GasOperatingPoints[i].F
             Id: guid()
             GasDataId: guid()
             Ro: +data.GasOperatingPoints[i].Ro
             Vi: data.GasOperatingPoints[i].Vi
-            Vp: parseFloat(data.GasOperatingPoints[i].Vp)
+#            Vp: parseFloat(data.GasOperatingPoints[i].Vp)
+            Vp: parseFloat(convertVp(data.GasOperatingPoints[i].Vp, data.GasDatas.VpUnits))
             GasData:
               $ref: "4"
             EntityKey:
@@ -292,6 +334,11 @@
                 Type: "System.Guid"
                 Value: guid()
               ]
+#          console.log obj, obj.GasDatas[i].VpUnit,obj.GasDatas[i].DptUnit
+          if obj.GasDatas[0].VpUnit is 1 or obj.GasDatas[0].VpUnit is 60 or obj.GasDatas[0].VpUnit is 3600
+            obj.GasDatas[0].VpUnit = 1
+          if obj.GasDatas[0].DptUnit is 0.101 or obj.GasDatas[0].DptUnit is 0.01 or obj.GasDatas[0].DptUnit is 1 or obj.GasDatas[0].DptUnit is 10
+            obj.GasDatas[0].DptUnit = 1
         obj
       else
         id = genrateId()
@@ -334,8 +381,10 @@
             GasDustload: data.GasDatas.GasDustload
             Id: data.GasDatas.Id
             FanProjectId: data.GasDatas.FanProjectId
-            VpUnit: data.GasDatas.VpUnit
-            DptUnit:data.GasDatas.DptUnit
+#            VpUnit: data.GasDatas.VpUnit
+#            DptUnit:data.GasDatas.DptUnit
+            VpUnit: calculateVp(data.GasDatas.VpUnits) #data.GasDatas.VpUnit
+            DptUnit: CalcNormalDensity(data.GasDatas.DptUnits) #data.GasDatas.DptUnit
             GasOperatingPoints: []
             FanProject:
               $ref: "1"
@@ -418,16 +467,20 @@
                 Value: guid()
               ]
         _.map _.range(data.GasOperatingPoints.length),(i) ->
+          console.log convertDpt(data.GasOperatingPoints[i].Dpt, data.GasDatas.DptUnits)
+          console.log convertVp(data.GasOperatingPoints[i].Vp, data.GasDatas.VpUnits)
           obj.GasDatas[0].GasOperatingPoints.push
             $id: id().toString()
-            Dpt: +data.GasOperatingPoints[i].Dpt
+#            Dpt: +data.GasOperatingPoints[i].Dpt
+            Dpt: +convertDpt(data.GasOperatingPoints[i].Dpt, data.GasDatas.DptUnits)
             P1: +data.GasOperatingPoints[i].P1
             F: +data.GasOperatingPoints[i].F
             Id: data.GasOperatingPoints[i].Id
             GasDataId: data.GasOperatingPoints[i].GasDataId
             Ro: +data.GasOperatingPoints[i].Ro
             Vi: data.GasOperatingPoints[i].Vi
-            Vp: parseFloat(data.GasOperatingPoints[i].Vp)
+#            Vp: parseFloat(data.GasOperatingPoints[i].Vp)
+            Vp: parseFloat(convertVp(data.GasOperatingPoints[i].Vp, data.GasDatas.VpUnits))
             GasData:
               $ref: "4"
             EntityKey:
@@ -439,6 +492,12 @@
                 Type: "System.Guid"
                 Value: guid()
               ]
+#          console.log obj, obj.GasDatas[i].VpUnit,obj.GasDatas[i].DptUnit
+          if obj.GasDatas[0].VpUnit is 1 or obj.GasDatas[0].VpUnit is 60 or obj.GasDatas[0].VpUnit is 3600
+            obj.GasDatas[0].VpUnit = 1
+          if obj.GasDatas[0].DptUnit is 0.101 or obj.GasDatas[0].DptUnit is 0.01 or obj.GasDatas[0].DptUnit is 1 or obj.GasDatas[0].DptUnit is 10
+            obj.GasDatas[0].DptUnit = 1
+        console.log obj, obj.GasDatas[0].VpUnit,obj.GasDatas[0].DptUnit
         obj
     return {
       createJson : createJson
