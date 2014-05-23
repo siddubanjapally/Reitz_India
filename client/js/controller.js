@@ -150,18 +150,16 @@
     };
     $scope.linersRequired = false;
     $scope.getRievent = function(rivent, index) {
+      var modalInstance;
       chartService.reportdata = rivent;
       chartService.inputdata = $scope.postdata;
-      return $timeout((function() {
-        var modalInstance;
-        return modalInstance = $modal.open({
-          modalTemplate: '<div class="modal modal-dialog modal-content" ng-transclude></div>',
-          templateUrl: 'report.html',
-          width: 'custom-width',
-          backdrop: 'static',
-          controller: 'ReportController'
-        });
-      }), 500);
+      return modalInstance = $modal.open({
+        modalTemplate: '<div id="reportModalTemplate" class="modal modal-dialog modal-content" ng-transclude></div>',
+        templateUrl: 'report.html',
+        width: 'custom-width',
+        backdrop: 'static',
+        controller: 'ReportController'
+      });
     };
     $scope.showreportimg = false;
     newDiaCalculation = function(newobj) {

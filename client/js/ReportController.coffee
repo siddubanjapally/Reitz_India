@@ -1,5 +1,6 @@
 (angular.module 'reitz')
-.controller 'ReportController',($scope,$modalInstance,$window,chartService,projectservice)->
+.controller 'ReportController',($scope,$modalInstance,$window,chartService,projectservice,$location,$timeout)->
+    $timeout (()-> $('#reportViewer1 a[href="#"]').attr('href',"#" + $location.path())),5000
     data = chartService.inputdata
     gsop = _.map chartService.inputdata.GasOperatingPoints,(item)->
       {"T":item.T,"P1":item.P,"Vi":item.Vi,"Vp":item.Vp,"Dpt":item.Dpt,"Ro":item.Ro}
@@ -19,11 +20,6 @@
       _.assign fanProject,{"NominalMotorSpeed":0}
     else
       _.assign fanProject,{ "NominalMotorSpeed":data.MaterialDriveControls.NominalMotorSpeed}
-
-#    if data.MaterialDriveControls.NoiseDataRequired
-#      _.assign fanProject,angular.toJson({"NoiseDataRequired":data.MaterialDriveControls.NoiseDataRequired
-#      ,"FanLocation":data.Noises.FanLocation,"RoomAbsorptionArea":data.Noises.RoomAbsorptionArea,"BackgroundNoiseCorrection":data.Noises.BackgroundNoiseCorrection
-#      ,"HousingMetalPlateThickness":data.Noises.HousingMetalPlateThickness,"DistanceBetweenStiffners":data.Noises.DistanceBetweenStiffners,"HousingMaterial":data.Noises.HousingMaterial})
 
     $window.fanProject = angular.toJson(fanProject)
     $window.fanResult = angular.toJson(chartService.reportdata)

@@ -114,17 +114,15 @@
       return Math.round dia * (bs + 500) * 7.85 * (3.143 / 4)
     $scope.linersRequired = false
     $scope.getRievent = (rivent,index)->
-#      $scope.getRow rivent,index
       chartService.reportdata = rivent
       chartService.inputdata = $scope.postdata
-
-      $timeout(( ()-> modalInstance = $modal.open({
-        modalTemplate: '<div class="modal modal-dialog modal-content" ng-transclude></div>',
+      modalInstance = $modal.open({
+        modalTemplate: '<div id="reportModalTemplate" class="modal modal-dialog modal-content" ng-transclude></div>',
         templateUrl: 'report.html',
         width:'custom-width',
         backdrop: 'static',
         controller:'ReportController'
-      })),500)
+      })
     $scope.showreportimg=false
     newDiaCalculation = (newobj)->
       Math.round(Math.pow(((checkDia(newobj.OuterBladeDiameter1,newobj.OuterBladeDiameter))/1000),2)*1000)/1000
