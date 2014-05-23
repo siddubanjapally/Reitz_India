@@ -18,16 +18,6 @@ div#page-wrapper
 									for='create-date') Date
 									div.col-lg-6
 										input.form-control(type='text', datepicker-popup='dd/MM/yyyy', ng-model='data.Date', is-open='opened',placeholder='Enter date ')
-										//input#create-date(ui-date,
-										//class='form-control',
-										//type='date',
-										//name='dat',
-										//ng-model='data.Date',
-										//autofocus,
-										//ng-enter,
-										//placeholder='Enter Date',
-										//required
-										//)
 										small(
 										class='help-block',
 										ng-show='newProject.dat.$invalid && newProject.date.$dirty') Date is required
@@ -43,11 +33,26 @@ div#page-wrapper
 										type='text',
 										name='engineers',
 										ng-model='data.Engineer',
-
 										placeholder='Enter Engineer name',
 										required)
 										small.help-block(
 										ng-show='newProject.engineers.$invalid && newProject.engineers.$dirty') Engineer Name is required
+							.form-group(ng-class="{ 'has-error' : newProject.customer.$invalid && !newProject.customer.$pristine }")
+								div.row
+									label.col-lg-3(
+									class='control-label',
+									for='customer') Customer Name
+									div.col-lg-6
+										input#engineer(
+										class='form-control',
+										ng-enter,
+										type='text',
+										name='customer',
+										ng-model='data.CustomerName',
+										placeholder='Enter Customer name',
+										required)
+										small.help-block(
+										ng-show='newProject.engineers.$invalid && newProject.engineers.$dirty') Customer Name is required
 							.form-group(ng-class="{ 'has-error' : newProject.projectName.$invalid && !newProject.projectName.$pristine }")
 								div.row
 									label.col-lg-3(

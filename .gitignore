@@ -1,6 +1,6 @@
 node_modules/
-client/*.js
-client/*.map
+client/js/*.js
+client/js/*.map
 client/views/customer/*.html
 .idea/
 .tmp/

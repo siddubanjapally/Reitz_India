@@ -150,18 +150,16 @@
     };
     $scope.linersRequired = false;
     $scope.getRievent = function(rivent, index) {
+      var modalInstance;
       chartService.reportdata = rivent;
       chartService.inputdata = $scope.postdata;
-      return $timeout((function() {
-        var modalInstance;
-        return modalInstance = $modal.open({
-          modalTemplate: '<div class="modal modal-dialog modal-content" ng-transclude></div>',
-          templateUrl: 'report.html',
-          width: 'custom-width',
-          backdrop: 'static',
-          controller: 'ReportController'
-        });
-      }), 500);
+      return modalInstance = $modal.open({
+        modalTemplate: '<div id="reportModalTemplate" class="modal modal-dialog modal-content" ng-transclude></div>',
+        templateUrl: 'report.html',
+        width: 'custom-width',
+        backdrop: 'static',
+        controller: 'ReportController'
+      });
     };
     $scope.showreportimg = false;
     newDiaCalculation = function(newobj) {
@@ -202,7 +200,7 @@
         var Weight_factor;
         $scope.fanseries = result;
         Weight_factor = $scope.fanseries.ImpellerScantllingsFactors[0].WeightFactor;
-        data.oldGD2 = Math.round(4.2 * (data.BackPlate + data.ShroudPlate + data.Blades) * Math.pow((data.OuterBladeDiameter / 1000) * Weight_factor, 2));
+        data.oldGD2 = Math.round(4.2 * (data.BackPlate + data.ShroudPlate + data.Blades + data.Hub) * Math.pow((data.OuterBladeDiameter / 1000) * Weight_factor, 2));
         $scope.seriesBackplate = $scope.seriesShroudplate = $scope.seriesBlade = _.find($scope.fanseries.ImpellerScantllings, {
           Size: data.NominalSize
         });
@@ -450,7 +448,6 @@
     $scope.saveProjectInfo = function() {
       var projectInfo;
       projectInfo = projectservice.data;
-      console.log(projectInfo);
       return ReitzResources.fanproject.create(projectInfo).$promise.then(function(result) {
         return console.log('inserted successfully', result);
       });

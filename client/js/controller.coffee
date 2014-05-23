@@ -3,22 +3,17 @@
     $scope.state = $routeParams['state']
     if $cookieStore.get('id') is undefined
       $location.path '#/login'
-    #$scope.ImpScl = chartService.ImpellerScantllingsValues
     $scope.ImpScl = ReitzResources.ImpellerScantllingValues.query()
-#    $scope.inletBoxSizes =  chartService.InletBoxSizes
     ReitzResources.getInletBoxWeitghts (weights)->
       $scope.inletBoxSizes = weights
-
     projectservice.checkingOperatingPont(projectservice.data)
     $scope.postdata = projectservice.data
     $scope.result = []
     $scope.loading = true
     checkDia= (newdia,olddia)->
       if newdia then newdia else olddia
-
 #findshaftdia is added to find shaft dia at hub using object of fan and weight by Naitik
     findShaftDia = (result,w)->
-#      console.log result
       if result[0].Rpm is 2500 || result[0].Rpm is 3500
         weight = getWeight1(w)
       else
@@ -119,17 +114,15 @@
       return Math.round dia * (bs + 500) * 7.85 * (3.143 / 4)
     $scope.linersRequired = false
     $scope.getRievent = (rivent,index)->
-#      $scope.getRow rivent,index
       chartService.reportdata = rivent
       chartService.inputdata = $scope.postdata
-
-      $timeout(( ()-> modalInstance = $modal.open({
-        modalTemplate: '<div class="modal modal-dialog modal-content" ng-transclude></div>',
+      modalInstance = $modal.open({
+        modalTemplate: '<div id="reportModalTemplate" class="modal modal-dialog modal-content" ng-transclude></div>',
         templateUrl: 'report.html',
         width:'custom-width',
         backdrop: 'static',
         controller:'ReportController'
-      })),500)
+      })
     $scope.showreportimg=false
     newDiaCalculation = (newobj)->
       Math.round(Math.pow(((checkDia(newobj.OuterBladeDiameter1,newobj.OuterBladeDiameter))/1000),2)*1000)/1000
@@ -160,7 +153,7 @@
       ReitzResources.fanseries.get({id:Math.floor(data.Series)}).$promise.then (result)->
         $scope.fanseries = result
         Weight_factor = $scope.fanseries.ImpellerScantllingsFactors[0].WeightFactor
-        data.oldGD2 =  Math.round(4.2*(data.BackPlate + data.ShroudPlate  + data.Blades ) * Math.pow(((data.OuterBladeDiameter/1000)* Weight_factor),2))
+        data.oldGD2 =  Math.round(4.2*(data.BackPlate + data.ShroudPlate  + data.Blades + data.Hub) * Math.pow(((data.OuterBladeDiameter/1000)* Weight_factor),2))
         $scope.seriesBackplate = $scope.seriesShroudplate = $scope.seriesBlade   = _.find $scope.fanseries.ImpellerScantllings,{Size:data.NominalSize}
         $scope.single_double_width = _.find $scope.fanseries.CentrifugalFanSeries,{NominalSize:data.NominalSize}
 
@@ -348,11 +341,6 @@
 
     $scope.saveProjectInfo = () ->
       projectInfo = projectservice.data
-      console.log projectInfo
-#      if !projectservice.data.MaterialDriveControls.NoiseDataRequired
-#        projectInfo.Noises = {}
-#        console.log projectInfo
-#      console.log projectInfo
       ReitzResources.fanproject.create(projectInfo).$promise.then (result)->
         console.log 'inserted successfully', result
 
