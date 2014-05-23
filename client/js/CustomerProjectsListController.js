@@ -4,9 +4,9 @@
     var app;
     app = void 0;
     app = angular.module("reitz");
-    app.controller("CustomerProjectsListController", function($scope, $location, ReitzResources, projectservice, $filter, ngTableParams) {
+    app.controller("CustomerProjectsListController", function($scope, $location, $cookieStore, ReitzResources, projectservice, $filter, ngTableParams) {
       var projectsList;
-      if (localStorage.username === void 0) {
+      if ($cookieStore.get('id') === void 0) {
         $location.path('#/login');
       }
       projectsList = function() {

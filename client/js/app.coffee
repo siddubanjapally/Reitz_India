@@ -1,4 +1,4 @@
-(angular.module 'reitz',['ngRoute','ngResource','ngTable','ui.bootstrap'])
+(angular.module 'reitz',['ngRoute','ngResource','ngTable','ui.bootstrap','ngCookies'])
 .config ($routeProvider,$locationProvider,$httpProvider) ->
     $routeProvider
     .when('/login',{

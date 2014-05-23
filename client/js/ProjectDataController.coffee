@@ -1,7 +1,7 @@
 (angular.module 'reitz')
-.controller 'ProjectDataController',($scope,$route,$routeParams,$location,$rootScope,projectservice)->
+.controller 'ProjectDataController',($scope,$route,$cookieStore,$routeParams,$location,$rootScope,projectservice)->
     $scope.state = $routeParams['state']
-    if localStorage.username is undefined
+    if $cookieStore.get('id') is undefined
       $location.path '#/login'
     $scope.data = projectservice.data
 #    $scope.operatingPoint = () ->

@@ -2,8 +2,8 @@
   app = undefined
   app = angular.module("reitz")
 
-  app.controller "CustomerProjectsListController", ($scope, $location, ReitzResources, projectservice, $filter, ngTableParams) ->
-    if localStorage.username is undefined
+  app.controller "CustomerProjectsListController", ($scope, $location, $cookieStore,ReitzResources, projectservice, $filter, ngTableParams) ->
+    if $cookieStore.get('id') is undefined
       $location.path '#/login'
     projectsList = () ->
       $scope.tableList = new ngTableParams({

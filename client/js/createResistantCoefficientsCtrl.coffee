@@ -1,6 +1,6 @@
 (angular.module 'reitz')
-.controller 'createResistantCoefficientsCtrl', ($scope,ReitzResources) ->
-  if localStorage.username is undefined
+.controller 'createResistantCoefficientsCtrl', ($scope,ReitzResources,$cookieStore) ->
+  if $cookieStore.get('id') is undefined
     $location.path '#/login'
   $scope.FanAssemblies=[
     { label: 'Inlet Sound Silencer', value: 0, pId: 10 },

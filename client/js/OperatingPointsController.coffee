@@ -1,7 +1,7 @@
 (->
-  (angular.module("reitz")).controller "OperatingPointsController", ($scope, $route, $location, $routeParams, $rootScope,$timeout, projectservice, ReitzResources, chartService) ->
+  (angular.module("reitz")).controller "OperatingPointsController", ($scope, $cookieStore, $route, $location, $routeParams, $rootScope,$timeout, projectservice, ReitzResources, chartService) ->
     $scope.state = $routeParams["state"]
-    $location.path "#/login"  if localStorage.username is undefined
+    $location.path "#/login" if $cookieStore.get('id') is undefined
     $scope.data = projectservice.data
     $scope.opbtn = true
     $scope.$watch "data.GasOperatingPoint.T", ((value) ->

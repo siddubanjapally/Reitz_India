@@ -25,6 +25,18 @@ div#page-wrapper
 									input#confirmpasword.form-control(type='password',ng-model='data.confirmPassword', name='confirmPassword', placeholder='Confirm Password',required,data-password-verify='data.password')
 									span.help-block(data-ng-show="myForm.confirmPassword.$error.passwordVerify" style='color: red;') Passwords do not match.
 								.form-group
+									label.control-label(for='role') Role:
+									&nbsp;&nbsp;
+									.radio-inline
+										label
+											input(type='radio', name='role', value='Admin', ng-model='data.role')
+											| Admin
+									.radio-inline
+										label
+											input(type='radio', name='role', value='Employer',ng-model='data.role')
+											| Employer
+
+								.form-group
 									button#create-btn.btn.btn-primary.pull-right(type='submit',data-ng-disabled="myForm.$invalid",ng-click='createUser()') Create
 				.col-sm-10.col-sm-offset-1
 

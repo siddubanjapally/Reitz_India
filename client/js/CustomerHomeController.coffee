@@ -1,7 +1,7 @@
 (angular.module 'reitz')
-.controller 'CustomerHomeController',($scope,$rootScope,$routeParams,$filter,$location,projectservice,ReitzResources)->
+.controller 'CustomerHomeController',($scope,$cookieStore,$rootScope,$routeParams,$filter,$location,projectservice,ReitzResources)->
     $scope.state = $routeParams['state']
-    if localStorage.username is undefined
+    if $cookieStore.get('id') is undefined
       $location.path '#/login'
     $scope.gotoNewProject = ->
       $rootScope.navEnable =false
@@ -65,15 +65,20 @@
       projectservice.FanCoeffients = ReitzResources.multiunitsdata.query()
       $location.url 'new/project'
       console.log projectservice.data
+
 .controller 'navCtrl', ($scope,$location,userService)->
-    $scope.user = userService.isActive
-    if userService.isActive.role is 'admin'
-      $scope.user = userService.isActive
-      $scope.admin_role = true
-      $scope.admin_name = userService.isActive.username
-    else if userService.isActive.role is 'employer'
-      $scope.admin_role = false
-      $scope.emp_name = userService.isActive.username
+
+    if  userService.isActive.user isnt undefined
+      console.log userService.isActive.user.UserName
+      $scope.user = userService.isActive.user
+
+      if userService.isActive.user.Roles[0].RoleId is '2'
+        $scope.user = userService.isActive
+        $scope.admin_role = true
+        $scope.user = userService.isActive.user.UserName
+      else if userService.isActive.user.Roles[0].RoleId is '1'
+        $scope.admin_role = false
+        $scope.user = userService.isActive.user.UserName
 
     $scope.isActive =(route)->
       path = '#'+$location.path()

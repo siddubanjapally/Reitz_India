@@ -1,6 +1,6 @@
 (angular.module 'reitz')
-.controller 'createImpellerScantllingsCtrl', ($scope,$location,chartService,$http,ReitzResources) ->
-    if localStorage.username is undefined
+.controller 'createImpellerScantllingsCtrl', ($scope,$location,$cookieStore,chartService,$http,ReitzResources) ->
+    if $cookieStore.get('id') is undefined
       $location.path '#/login'
     scantillings = ReitzResources.ImpellerScantllingValues.query()
     $scope.addImpleller=(data)->

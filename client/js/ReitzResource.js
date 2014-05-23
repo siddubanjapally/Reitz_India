@@ -47,6 +47,15 @@
           isArray: true
         }
       }),
+      createUser: $resource('http://192.168.0.177/ReitzService/api/Account/Register', {}, {
+        query: {
+          method: 'GET',
+          isArray: true
+        },
+        create: {
+          method: 'POST'
+        }
+      }),
       getInletBoxWeitghts: function(cb) {
         return $http.get("http://202.153.45.8/ReitzService/GrossWeightOfInletBoxes").success(function(data) {
           return cb(data);
@@ -58,3 +67,7 @@
   });
 
 }).call(this);
+
+/*
+//@ sourceMappingURL=ReitzResource.map
+*/

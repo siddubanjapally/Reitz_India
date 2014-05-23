@@ -1,7 +1,7 @@
 (angular.module 'reitz')
-.controller 'noiseDataController',($scope,$route,$location,$routeParams,$rootScope,projectservice,ReitzResources,chartService)->
+.controller 'noiseDataController',($scope,$route,$cookieStore,$location,$routeParams,$rootScope,projectservice,ReitzResources,chartService)->
     $scope.state = $routeParams['state']
-    if localStorage.username is undefined
+    if $cookieStore.get('id') is undefined
       $location.path '#/login'
     $scope.data = projectservice.data
 

@@ -1,17 +1,22 @@
 (angular.module 'reitz')
-.controller 'createUserCtrl', ($scope,$location,$rootScope,$http,$timeout, userService) ->
-    if localStorage.username is undefined
+.controller 'createUserCtrl', ($scope,$location,$rootScope,$cookieStore,$http,$timeout, userService, ReitzResources) ->
+    if $cookieStore.get('id') is undefined
       $location.path '#/login'
     $scope.userList = userService.user_employer
+    $scope.data ={
+    role: "Employer"}
     $scope.createUser = ()->
       if $scope.data.username != undefined && $scope.data.password != undefined && $scope.data.confirmPassword != undefined
         user = {
-          id: _.max(userService.user_employer, (user) -> user.id ).id + 1,
-          username: $scope.data.username,
-          password: $scope.data.password,
-          role: 'employer'
+#          id: _.max(userService.user_employer, (user) -> user.id ).id + 1,
+          UserName: $scope.data.username,
+          PassWord: $scope.data.password,
+          confirmPassword:$scope.data.confirmPassword,
+          Roles: [$scope.data.role]
         }
-        userService.user_employer.push user
+        console.log user
+        ReitzResources.createUser.create(angular.toJson user)
+#        userService.user_employer.push user
         $scope.errorMode = true
         $timeout (->
           # Loadind done here - Show message for 3 more seconds.

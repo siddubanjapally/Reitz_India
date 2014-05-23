@@ -1,7 +1,7 @@
 (angular.module 'reitz')
-.controller('chartCtrl',($scope,$location,$rootScope,$modal,$routeParams,$timeout,ngTableParams,$filter,$http,projectservice,chartService,ReitzResources)->
+.controller('chartCtrl',($scope,$location,$rootScope,$modal,$routeParams,$cookieStore,$timeout,ngTableParams,$filter,$http,projectservice,chartService,ReitzResources)->
     $scope.state = $routeParams['state']
-    if localStorage.username is undefined
+    if $cookieStore.get('id') is undefined
       $location.path '#/login'
     #$scope.ImpScl = chartService.ImpellerScantllingsValues
     $scope.ImpScl = ReitzResources.ImpellerScantllingValues.query()
@@ -436,7 +436,6 @@
           if rangekeys.length
             _.map _.range(rangekeys.length),(i)->
                 filteredData = tabledataRange(filteredData,filterobj[rangekeys[i]],rangekeys[i])
-                console.log filteredData
             orderedData = if params.sorting() then $filter('orderBy')(filteredData,params.orderBy()) else $scope.result
             $defer.resolve(orderedData)
           else
