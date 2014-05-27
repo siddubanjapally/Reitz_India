@@ -25,10 +25,7 @@ div#page-wrapper
 									select.form-control(ng-model='getFanAssembliesName', ng-options="opt as opt.label for opt in FanAssemblies")
 
 								.form-group(ng-class="{ 'has-error' : crs.data.$invalid && !crs.data.$pristine }")
-									label(
-									class='control-label',
-									for='selectPressure')
-									| {{getFanAssembliesName.label}}
+
 									input(
 									class='form-control ',
 									type='text',
