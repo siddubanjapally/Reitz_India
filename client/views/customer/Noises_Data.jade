@@ -2,7 +2,9 @@ ng-include(src="'views/nav.html'")
 div#page-wrapper
 	br
 	div.row
-		div.col-lg-12
+		div.col-sm-1
+			img.sideTitle(src='./images/noisedata.PNG')
+		div.col-lg-10
 			.panel.panel-primary
 				.panel-heading
 					h3.panel-title.text-center Noises Data
@@ -10,7 +12,7 @@ div#page-wrapper
 					.col-sm-11.col-lg-offset-1
 						.form-group( ng-class="{ 'has-error' : newProject.projectName.$invalid && newProject.projectName.$dirty}")
 							div.row
-								label.col-lg-4(
+								label.col-lg-5(
 								class='control-label',
 								for='project-name') Fan Location
 								div.col-lg-6
@@ -22,7 +24,7 @@ div#page-wrapper
 										option(value='4') Corner
 						.form-group(ng-class="{ 'has-error' : newProject.orderNo.$invalid && newProject.orderNo.$dirty}")
 							div.row
-								label.col-lg-4(
+								label.col-lg-5(
 								class='control-label',
 								for='order-no') Absorption area of room
 								div.col-lg-2
@@ -37,7 +39,7 @@ div#page-wrapper
 										| Absorption area of roomis required
 						.form-group(ng-class="{ 'has-error' : newProject.orderNo.$invalid && newProject.orderNo.$dirty}")
 							div.row
-								label.col-lg-4(
+								label.col-lg-5(
 								class='control-label',
 								for='order-no') Background Noise corrections
 								div.col-lg-2
@@ -52,7 +54,7 @@ div#page-wrapper
 										|  Background Noise corrections is required
 						.form-group( ng-class="{ 'has-error' : newProject.projectName.$invalid && newProject.projectName.$dirty}")
 							div.row
-								label.col-lg-4(
+								label.col-lg-5(
 								class='control-label',
 								for='project-name') Design
 								div.col-lg-6
@@ -64,7 +66,7 @@ div#page-wrapper
 										option(value='4') ZS[double inlet with intake box]
 						.form-group(ng-class="{ 'has-error' : newProject.orderNo.$invalid && newProject.orderNo.$dirty}")
 							div.row
-								label.col-lg-4(
+								label.col-lg-5(
 								class='control-label',
 								for='order-no') Housing Metal place thickness[mm]
 								div.col-lg-2
@@ -79,7 +81,7 @@ div#page-wrapper
 										| Housing Metal place thickness is required
 						.form-group(ng-class="{ 'has-error' : newProject.orderNo.$invalid && newProject.orderNo.$dirty}")
 							div.row
-								label.col-lg-4(
+								label.col-lg-5(
 								class='control-label',
 								for='order-no') Distance between stiffners 2a[mm]
 								div.col-lg-2
@@ -94,7 +96,7 @@ div#page-wrapper
 										| Distance between stiffners 2a is required
 						.form-group(ng-class="{ 'has-error' : newProject.projectName.$invalid && newProject.projectName.$dirty}")
 							div.row
-								label.col-lg-4(
+								label.col-lg-5(
 								class='control-label',
 								for='project-name') Housing Material
 								div.col-lg-6

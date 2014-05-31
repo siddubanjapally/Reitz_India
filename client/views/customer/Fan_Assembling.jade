@@ -2,19 +2,21 @@ ng-include(src="'views/nav.html'")
 div#page-wrapper
 	br
 	div.row
-		div.col-lg-12
+		div.col-sm-1
+			img.sideTitle(src='./images/fanassem.PNG')
+		div.col-lg-10
 			.panel.panel-primary
 				.panel-heading
 					h3.panel-title.text-center Fan Assembling
 				.panel-body
-					.col-sm-10.col-lg-offset-2
+					.col-sm-10.col-lg-offset-1
 						.form-group(ng-class="{ 'has-error' : newProject.selectPressure.$invalid && newProject.selectPressure.$dirty}")
 							div.row
 								label.col-lg-3(
 								class='control-label',
 								for='selectPressure')
 									| Select Pressure
-								div.col-lg-6
+								div.col-lg-8
 									select.form-control(ng-model='data.FanAssemblies.Pressure_Difference',autofocus)
 										option(value='') Select Pressure..
 										option(value='0') Lines 0,3(Fan with Pressure Losses at both sides)
@@ -31,10 +33,10 @@ div#page-wrapper
 				.panel-heading(ng-hide='lines.faninlet')
 					h3.panel-title.text-center Resistant Coefficients Inletside
 				.panel-body(ng-hide='lines.faninlet')
-					.col-sm-10.col-lg-offset-2
+					.col-sm-10.col-lg-offset-1
 						.form-group(ng-class="{ 'has-error' : newProject.selectPressure.$invalid && newProject.selectPressure.$dirty}")
 							div.row
-								label.col-lg-5(
+								label.col-lg-6(
 								class='control-label',
 								for='selectPressure')
 									| Inlet Sound Silencer losses Coefficient :
@@ -43,7 +45,7 @@ div#page-wrapper
 
 						.form-group(ng-class="{ 'has-error' : newProject.selectPressure.$invalid && newProject.selectPressure.$dirty}")
 							div.row
-								label.col-lg-5(
+								label.col-lg-6(
 								class='control-label',
 								for='selectPressure')
 									| Inlet Box losses Coefficient :
@@ -54,7 +56,7 @@ div#page-wrapper
 
 						.form-group(ng-class="{ 'has-error' : newProject.selectPressure.$invalid && newProject.selectPressure.$dirty}")
 							div.row
-								label.col-lg-5(
+								label.col-lg-6(
 								class='control-label',
 								for='selectPressure')
 									| Other Inlet losses Coefficient :
@@ -67,10 +69,10 @@ div#page-wrapper
 				.panel-heading(ng-hide='lines.fanoutlet')
 					h3.panel-title.text-center Resistant Coefficients Outletside
 				.panel-body(ng-hide='lines.fanoutlet')
-					.col-lg-10.col-lg-offset-2
+					.col-lg-10.col-lg-offset-1
 						.form-group(ng-class="{ 'has-error' : newProject.selectPressure.$invalid && newProject.selectPressure.$dirty}")
 							div.row
-								label.col-lg-5(
+								label.col-lg-6(
 								class='control-label',
 								for='selectPressure')
 									| Evase ,Inlet/Outlet area ratio :
@@ -88,7 +90,7 @@ div#page-wrapper
 
 						.form-group(ng-class="{ 'has-error' : newProject.selectPressure.$invalid && newProject.selectPressure.$dirty}")
 							div.row
-								label.col-lg-5(
+								label.col-lg-6(
 								class='control-label',
 								for='selectPressure')
 									| Outlet Silencer losses Coefficient :
@@ -97,7 +99,7 @@ div#page-wrapper
 
 						.form-group(ng-class="{ 'has-error' : newProject.selectPressure.$invalid && newProject.selectPressure.$dirty}")
 							div.row
-								label.col-lg-5(
+								label.col-lg-6(
 								class='control-label',
 								for='selectPressure')
 									| Other Outlet losses Coefficient :

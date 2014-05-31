@@ -174,11 +174,20 @@ div.span3 {
     white-space : nowrap;
 }
 div.ops{
-    width:130px;
+    width:140px;
     float: none;
     display: inline-block;
 }
 div.setposition{
     float: left;
     display: inline-block;
+}
+.sideTitle{
+    position: absolute;
+    margin-top: 88px;
+}
+#rivent{
+    margin-left:100px;
+    margin-top: -1px;
+
 }

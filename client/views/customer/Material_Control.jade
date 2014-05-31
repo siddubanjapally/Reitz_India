@@ -2,7 +2,9 @@ ng-include(src="'views/nav.html'")
 div#page-wrapper
 	br
 	div.row
-		div.col-lg-12
+		div.col-sm-1
+			img.sideTitle(src='./images/material.PNG')
+		div.col-lg-10
 			.panel.panel-primary
 				.panel-heading
 					h3.panel-title.text-center Material Control
@@ -10,10 +12,10 @@ div#page-wrapper
 					.col-sm-10.col-sm-offset-1
 						.form-group
 							div.row
-								label.col-lg-4(
+								label.col-lg-5(
 								class='control-label',
 								for='create-date') Inlet/Outlet Duct
-								div.col-lg-7
+								div.col-lg-6
 									select.form-control(ng-model='data.MaterialDriveControls.InletOutletDuct',autofocus)
 										option(value='') Select duct..
 										option(value='0') Free inlet,ducted outlet
@@ -21,7 +23,7 @@ div#page-wrapper
 										option(value='2') Ducted inlet and outlet
 						.form-group
 							div.row
-								label.col-lg-4(
+								label.col-lg-5(
 								class='control-label',
 								for='engineer') Single/Double Width
 								div.col-lg-5
@@ -30,7 +32,7 @@ div#page-wrapper
 
 						.form-group(ng-show='data.MaterialDriveControls.Width == 1')
 							div.row
-								label.col-lg-4(
+								label.col-lg-5(
 								class='control-label',
 								for='engineer') Fan Type
 								div.col-lg-2
@@ -46,7 +48,7 @@ div#page-wrapper
 										option(value='RHE') RHE
 						.form-group(ng-show='data.MaterialDriveControls.Width == 2')
 							div.row
-								label.col-lg-4(
+								label.col-lg-5(
 								class='control-label',
 								for='engineer') Fan Type
 								div.col-lg-2
@@ -56,10 +58,10 @@ div#page-wrapper
 
 						.form-group
 							div.row
-								label.col-lg-4(
+								label.col-lg-5(
 								class='control-label',
 								for='project-name') Control
-								div.col-lg-7
+								div.col-lg-6
 									select.form-control(ng-model='data.MaterialDriveControls.Control',placeholder='Select value')
 										option(value='') Select Control..
 										option(value='0') None
@@ -81,7 +83,7 @@ div#page-wrapper
 
 								class='control-label',
 								for='order-no') Mechanical Design Temp[Deg'C]
-								div.col-lg-2.col-lg-pull-1
+								div.col-lg-2
 									input#dynamicViscosity(
 									class='form-control ',
 									type='text',
@@ -93,7 +95,7 @@ div#page-wrapper
 										|  Mechanical Design Temperature[Degrees C] is required
 						.form-group
 							div.row
-								label.col-lg-4(
+								label.col-lg-5(
 								class='control-label',
 								for='order-no') Standard Impeller Material
 								.col-lg-1
@@ -101,10 +103,10 @@ div#page-wrapper
 										input(type='checkbox',ng-model='data.MaterialDriveControls.StandardImpellerMaterial')
 						.form-group(ng-hide='data.MaterialDriveControls.StandardImpellerMaterial')
 							div.row
-								label.col-lg-4(
+								label.col-lg-5(
 								class='control-label',
 								for='order-no') Material Name
-								div.col-lg-7
+								div.col-lg-6
 									input#dynamicViscosity(
 									class='form-control ',
 									type='text',
@@ -117,7 +119,7 @@ div#page-wrapper
 										|  Material Name is required
 						.form-group(ng-hide='data.MaterialDriveControls.StandardImpellerMaterial')
 							div.row
-								label.col-lg-4(
+								label.col-lg-5(
 								class='control-label',
 								for='order-no') Material Density[kg/dm*3]
 								div.col-lg-2
@@ -148,7 +150,7 @@ div#page-wrapper
 										|  Material Yield Strength[N/mm*2] is required
 						.form-group
 							div.row 
-								label.col-lg-4(
+								label.col-lg-5(
 								class='control-label',
 								for='project-name') Drive
 								div.col-lg-4
@@ -156,7 +158,7 @@ div#page-wrapper
 									button.btn.btn-primary.btn-circle(type="button",tabindex='-1',ng-model="data.MaterialDriveControls.Drive",btn-radio="'D'") Direct
 						.form-group(ng-hide='data.MaterialDriveControls.direct')
 							div.row
-								label.col-lg-4(
+								label.col-lg-5(
 								class='control-label',
 								for='order-no') IEC Standard Motor
 								div.col-lg-3
@@ -164,10 +166,10 @@ div#page-wrapper
 										input(type='checkbox',ng-model='data.MaterialDriveControls.IECStandardMotor')
 						.form-group(ng-hide='data.MaterialDriveControls.direct')
 							div.row
-								label.col-lg-4(
+								label.col-lg-5(
 								class='control-label',
 								for='project-name') Nominal Motor Speed
-								div.col-lg-7
+								div.col-lg-6
 									select.form-control(ng-model='data.MaterialDriveControls.NominalMotorSpeed',placeholder='Select value')
 										option(value='') Select Motor Speed..
 										option(value='0') 3000 rpm
@@ -177,7 +179,7 @@ div#page-wrapper
 
 						.form-group
 							div.row
-								label.col-lg-4(
+								label.col-lg-5(
 								class='control-label',
 								for='order-no') Noises Data Required
 								div.col-lg-1
